@@ -91,7 +91,7 @@
 async function loadLatestNews() {
   const container = document.querySelector('.latest-news');
   if (!container) return;
-
+  container.innerHTML = '<p>грузим :33</p>';
   let highestNumber = 0;
   let checkedNumber = 1;
   const maxCheck = 50; 
