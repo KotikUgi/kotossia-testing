@@ -164,8 +164,13 @@ async function loadLatestNews() {
     }
   }
   container.innerHTML = '';
+  // 4. Создаем HTML-структуру и добавляем в контейнер
   const newsItem = document.createElement('div');
   newsItem.className = 'news-item';
+  newsItem.style.display = 'flex';
+  newsItem.style.flexDirection = 'column';
+  newsItem.style.alignItems = 'center'; // Центрирует строку с картинками и текст по горизонтали
+  newsItem.style.width = '100%';
 
   if (images.length > 0) {
     const row = document.createElement('div');
@@ -173,22 +178,21 @@ async function loadLatestNews() {
     row.style.display = 'flex';
     row.style.gap = '10px';
     row.style.flexWrap = 'nowrap'; 
-    row.style.alignItems = 'stretch'; // Заставляет все элементы в строке быть одной высоты
+    row.style.alignItems = 'stretch';
+    row.style.justifyContent = 'center'; // Центрирует картинки внутри самой строки, если их меньше 4
+    row.style.width = '100%';
 
     images.forEach((src, index) => {
       const img = document.createElement('img');
       img.src = src;
       
-      // Каждая картинка занимает 25% ширины строки (минус отступы gap)
       img.style.width = 'calc(25% - 7.5px)'; 
       img.style.objectFit = 'cover';
-      img.style.objectPosition = 'center'; // Центрирует содержимое внутри выделенной области
+      img.style.objectPosition = 'center'; // Центрирует содержимое внутри каждой картинки
 
-      // Для первой картинки сохраняем пропорции, чтобы она задала высоту всей строке
       if (index === 0) {
         img.style.height = 'auto'; 
       } else {
-        // Остальные картинки жестко вписываются в высоту первой
         img.style.height = '100%'; 
       }
       
@@ -197,17 +201,18 @@ async function loadLatestNews() {
     newsItem.appendChild(row);
   }
 
-
-
   // Блок для текста
   if (textContent) {
     const textElement = document.createElement('p');
     textElement.className = 'news-text';
     textElement.innerText = textContent;
+    textElement.style.textAlign = 'center'; // Центрирует текст внутри параграфа
+    textElement.style.width = '100%';
     newsItem.appendChild(textElement);
   }
 
   container.appendChild(newsItem);
+
 }
 
 // Запуск при загрузке страницы
