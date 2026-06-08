@@ -88,99 +88,115 @@
                 });
         </script>
     <script>
-        async function loadLatestNews() {
-    const container = document.querySelector('.latest-news');
-    if (!container) return;
+async function loadLatestNews() {
+  const container = document.querySelector('.latest-news');
+  if (!container) return;
 
-    let highestNumber = 0;
-    let checkedNumber = 1;
-    const maxCheck = 50; // Защита от бесконечного цикла, если файлов нет
+  let highestNumber = 0;
+  let checkedNumber = 1;
+  const maxCheck = 50; 
 
-    // 1. Ищем самый большой существующий номер по наличию .txt файла
-    while (checkedNumber <= maxCheck) {
-        try {
-            const response = await fetch(`${checkedNumber}.txt`, { method: 'HEAD' });
-            if (response.ok) {
-                highestNumber = checkedNumber;
-                checkedNumber++;
-            } else {
-                break; // Прерываем, если файл не найден
-            }
-        } catch (error) {
-            break;
-        }
-    }
-
-    if (highestNumber === 0) {
-        container.innerHTML = '<p>Новости не найдены.</p>';
-        return;
-    }
-
-    // 2. Загружаем текст для найденного номера
-    let textContent = '';
+  // 1. Ищем самый большой существующий номер по наличию .txt файла
+  while (checkedNumber <= maxCheck) {
     try {
-        const textResponse = await fetch(`${highestNumber}.txt`);
-        if (textResponse.ok) {
-            textContent = await textResponse.text();
+      const response = await fetch(`${checkedNumber}.txt`, { method: 'HEAD' });
+      if (response.ok) {
+        highestNumber = checkedNumber;
+        checkedNumber++;
+      } else {
+        break; 
+      }
+    } catch (error) {
+      break;
+    }
+  }
+
+  if (highestNumber === 0) {
+    container.innerHTML = '<p>Новости не найдены.</p>';
+    return;
+  }
+
+  // 2. Загружаем текст для найденного номера
+  let textContent = '';
+  try {
+    const textResponse = await fetch(`${highestNumber}.txt`);
+    if (textResponse.ok) {
+      textContent = await textResponse.text();
+    }
+  } catch (e) {
+    console.error("Ошибка загрузки текста:", e);
+  }
+
+  // 3. Ищем все связанные изображения (.png или .jpg)
+  const images = [];
+  let imageIndex = 1;
+
+  while (true) {
+    const pngPath = `${highestNumber}_${imageIndex}.png`;
+    const jpgPath = `${highestNumber}_${imageIndex}.jpg`;
+    let foundPath = null;
+
+    try {
+      // Сначала проверяем PNG
+      let imgResponse = await fetch(pngPath, { method: 'HEAD' });
+      if (imgResponse.ok) {
+        foundPath = pngPath;
+      } else {
+        // Если PNG нет, проверяем JPG
+        imgResponse = await fetch(jpgPath, { method: 'HEAD' });
+        if (imgResponse.ok) {
+          foundPath = jpgPath;
         }
+      }
+
+      // Если нашли картинку любого формата — добавляем и идем дальше
+      if (foundPath) {
+        images.push(foundPath);
+        imageIndex++;
+      } else {
+        break; // Прерываем цикл, если под этим индексом нет ни png, ни jpg
+      }
     } catch (e) {
-        console.error("Ошибка загрузки текста:", e);
+      break;
     }
+  }
 
-    // 3. Ищем все связанные изображения (индексы от 1 и далее)
-    const images = [];
-    let imageIndex = 1;
-    
-    while (true) {
-        const imgPath = `${highestNumber}_${imageIndex}.png`;
-        try {
-            const imgResponse = await fetch(imgPath, { method: 'HEAD' });
-            if (imgResponse.ok) {
-                images.push(imgPath);
-                imageIndex++;
-            } else {
-                break; 
-            }
-        } catch (e) {
-            break;
-        }
-    }
+  // 4. Создаем HTML-структуру и добавляем в контейнер
+  const newsItem = document.createElement('div');
+  newsItem.className = 'news-item';
 
-    // 4. Создаем HTML-структуру и добавляем в контейнер
-    const newsItem = document.createElement('div');
-    newsItem.className = 'news-item';
+  // Блок для картинок в одну строку
+  if (images.length > 0) {
+    const row = document.createElement('div');
+    row.className = 'news-images-row';
+    row.style.display = 'flex';
+    row.style.gap = '10px';
+    row.style.flexWrap = 'nowrap'; 
 
-    // Блок для картинок в одну строку
-    if (images.length > 0) {
-        const row = document.createElement('div');
-        row.className = 'news-images-row';
-        row.style.display = 'flex';
-        row.style.gap = '10px';
-        row.style.flexWrap = 'nowrap'; // Элементы не переносятся на новую строку
+    images.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.maxWidth = '100%';
+      img.style.height = 'auto';
+      row.appendChild(img);
+    });
+    newsItem.appendChild(row);
+  }
 
-        images.forEach(src => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.style.maxWidth = '100%';
-            img.style.height = 'auto';
-            row.appendChild(img);
-        });
-        newsItem.appendChild(row);
-    }
+  // Блок для текста
+  if (textContent) {
+    const textElement = document.createElement('p');
+    textElement.className = 'news-text';
+    textElement.innerText = textContent;
+    newsItem.appendChild(textElement);
+  }
 
-    // Блок для текста
-    if (textContent) {
-        const textElement = document.createElement('p');
-        textElement.className = 'news-text';
-        textElement.innerText = textContent;
-        newsItem.appendChild(textElement);
-    }
-
-    container.appendChild(newsItem);
+  container.appendChild(newsItem);
 }
 
 // Запуск при загрузке страницы
 document.addEventListener('DOMContentLoaded', loadLatestNews);
+
 
     </script>
     </header>
@@ -218,6 +234,6 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
         <br>
         <h1 style="text-align: center; justify-content: flex-end;">О стране</h1>
         <br>
-        <p style="text-align: center; width: 50%; margin: 0 auto;">Котоссия (КФ или Котоссийская Федерация, ранее Кото Край/Кото Страна) - это страна человеко-подобных котов (Почти фурри, но нет). Главные законы: ЛГБТ запрещено, для приезжих законы оцениваются строже (Особенно не к котам).</p>
+        <p style="text-align: center; width: 50%; margin: 0 auto;">Котоссия (КФ или Котоссийская Федерация, ранее Кото Край/Кото Страна) - это страна человеко-подобных котов (Почти фурри, но нет). Для приезжих законы оцениваются строже (Особенно не к котам).</p>
     </main>
 </body>
