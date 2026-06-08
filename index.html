@@ -124,6 +124,7 @@ async function loadLatestNews() {
       textContent = await textResponse.text();
     }
   } catch (e) {
+    container.innerHTML = '<p>ошибка загрузки текста. посмотрите в консоль</p>';
     console.error("Ошибка загрузки текста:", e);
   }
 
@@ -157,6 +158,8 @@ async function loadLatestNews() {
         break; // Прерываем цикл, если под этим индексом нет ни png, ни jpg
       }
     } catch (e) {
+      container.innerHTML = '<p>ошибка загрузки картинок. посмотрите в консоль</p>';
+      console.error("Ошибка загрузки картинок:", e);
       break;
     }
   }
