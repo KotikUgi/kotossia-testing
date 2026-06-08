@@ -99,7 +99,7 @@ async function loadLatestNews() {
   // 1. Ищем самый большой существующий номер по наличию .txt файла
   while (checkedNumber <= maxCheck) {
     try {
-      const response = await fetch(`${checkedNumber}.txt`, { method: 'HEAD' });
+      const response = await fetch(`../${checkedNumber}.txt`, { method: 'HEAD' });
       if (response.ok) {
         highestNumber = checkedNumber;
         checkedNumber++;
@@ -119,7 +119,7 @@ async function loadLatestNews() {
   // 2. Загружаем текст для найденного номера
   let textContent = '';
   try {
-    const textResponse = await fetch(`${highestNumber}.txt`);
+    const textResponse = await fetch(`../${highestNumber}.txt`);
     if (textResponse.ok) {
       textContent = await textResponse.text();
     }
@@ -133,8 +133,8 @@ async function loadLatestNews() {
   let imageIndex = 1;
 
   while (true) {
-    const pngPath = `${highestNumber}_${imageIndex}.png`;
-    const jpgPath = `${highestNumber}_${imageIndex}.jpg`;
+    const pngPath = `../${highestNumber}_${imageIndex}.png`;
+    const jpgPath = `../${highestNumber}_${imageIndex}.jpg`;
     let foundPath = null;
 
     try {
