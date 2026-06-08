@@ -1,0 +1,229 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 1. The wrapper limits the image boundaries */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        main {
+            margin: 15;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .img-container {
+            width: 396px;
+            height: 98px;
+            border-radius: 8px; /* Optional rounded corners */
+        }
+
+        /* 2. Default state of the image */
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
+        }
+
+        /* 3. The hover effect trigger */
+        .img-container:hover img {
+            transform: scale(1.01); /* Zooms in by 20% */
+        }
+        header {
+            /* Syntax: linear-gradient(direction, color1, color2, color3) */
+            background: linear-gradient(90deg, #e2b111 33%, #7bceff 0 66%, #be1b1b 0);
+            background: linear-gradient(
+                90deg, 
+                #fff4d1 0%, 
+                #fff4d1 32%, /* End first color */
+                #e1f4ff 34%, /* Start second color */
+                #e1f4ff 65%, /* End second color */
+                #ffd1d1 67%, /* Start third color */
+                #ffd1d1 100%
+            );
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+        }
+        body {
+            font-family: Verdana, sans-serif;
+        }
+        platform-img {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header style="display: flex; justify-content: space-between; align-items: center; width: 100%; box-sizing: border-box; padding: 10px 20px; background-color: #ffffff;">
+        <div class="img-container">
+            <img src="https://raw.githubusercontent.com/KotikUgi/kotossia/main/kotossia logo.png" alt="В Главную страницу">
+        </div>
+        <nav>
+        <ul style="display: flex; list-style: none; margin: 0; padding: 0; gap: 20px;">
+        <li><a href="#" style="text-decoration: none; color: #333;">Главная</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">Новости</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">История президентов</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">Карта Котоссии</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">Города Котоссии</a></li>
+        </ul>
+    </nav>
+        <script>
+            // 1. Get the "Raw" URL from your GitHub repository
+            const url = 'https://raw.githubusercontent.com/KotikUgi/kotossia/main/test file';
+
+            // 2. Fetch the data and display it
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('file-content').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('file-content').textContent = 'Error loading file: ' + error.message;
+                });
+        </script>
+    <script>
+async function loadLatestNews() {
+  const container = document.querySelector('.latest-news');
+  if (!container) return;
+  container.innerHTML = '<p>грузим :33</p>';
+  let highestNumber = 0;
+  let checkedNumber = 1;
+  const maxCheck = 50; 
+
+  // 1. Ищем самый большой существующий номер по наличию .txt файла
+  while (checkedNumber <= maxCheck) {
+    try {
+      const response = await fetch(`../${checkedNumber}.txt`, { method: 'HEAD' });
+      if (response.ok) {
+        highestNumber = checkedNumber;
+        checkedNumber++;
+      } else {
+        break; 
+      }
+    } catch (error) {
+      break;
+    }
+  }
+
+  if (highestNumber === 0) {
+    container.innerHTML = '<p>Новости не найдены.</p>';
+    return;
+  }
+
+  // 2. Загружаем текст для найденного номера
+  let textContent = '';
+  try {
+    const textResponse = await fetch(`../${highestNumber}.txt`);
+    if (textResponse.ok) {
+      textContent = await textResponse.text();
+    }
+  } catch (e) {
+    container.innerHTML = '<p>ошибка загрузки текста. посмотрите в консоль</p>';
+    console.error("Ошибка загрузки текста:", e);
+  }
+
+  // 3. Ищем все связанные изображения (.png или .jpg)
+  const images = [];
+  let imageIndex = 1;
+
+  while (true) {
+    const pngPath = `../${highestNumber}_${imageIndex}.png`;
+    const jpgPath = `../${highestNumber}_${imageIndex}.jpg`;
+    let foundPath = null;
+
+    try {
+      // Сначала проверяем PNG
+      let imgResponse = await fetch(pngPath, { method: 'HEAD' });
+      if (imgResponse.ok) {
+        foundPath = pngPath;
+      } else {
+        // Если PNG нет, проверяем JPG
+        imgResponse = await fetch(jpgPath, { method: 'HEAD' });
+        if (imgResponse.ok) {
+          foundPath = jpgPath;
+        }
+      }
+
+      // Если нашли картинку любого формата — добавляем и идем дальше
+      if (foundPath) {
+        images.push(foundPath);
+        imageIndex++;
+      } else {
+        break; // Прерываем цикл, если под этим индексом нет ни png, ни jpg
+      }
+    } catch (e) {
+      container.innerHTML = '<p>ошибка загрузки картинок. посмотрите в консоль</p>';
+      console.error("Ошибка загрузки картинок:", e);
+      break;
+    }
+  }
+  container.innerHTML = '';
+  // 4. Создаем HTML-структуру и добавляем в контейнер
+  const newsItem = document.createElement('div');
+  newsItem.className = 'news-item';
+  newsItem.style.display = 'flex';
+  newsItem.style.flexDirection = 'column';
+  newsItem.style.alignItems = 'center'; // Центрирует строку с картинками и текст по горизонтали
+  newsItem.style.width = '100%';
+
+  if (images.length > 0) {
+    const row = document.createElement('div');
+    row.className = 'news-images-row';
+    row.style.display = 'flex';
+    row.style.gap = '10px';
+    row.style.flexWrap = 'nowrap'; 
+    row.style.alignItems = 'stretch';
+    row.style.justifyContent = 'center'; // Центрирует картинки внутри самой строки, если их меньше 4
+    row.style.width = '100%';
+
+    images.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      
+      img.style.width = 'calc(25% - 7.5px)'; 
+      img.style.objectFit = 'cover';
+      img.style.objectPosition = 'center'; // Центрирует содержимое внутри каждой картинки
+
+      if (index === 0) {
+        img.style.height = 'auto'; 
+      } else {
+        img.style.height = '100%'; 
+      }
+      
+      row.appendChild(img);
+    });
+    newsItem.appendChild(row);
+  }
+
+  // Блок для текста
+  if (textContent) {
+    const textElement = document.createElement('p');
+    textElement.className = 'news-text';
+    textElement.innerText = textContent;
+    textElement.style.textAlign = 'center'; // Центрирует текст внутри параграфа
+    textElement.style.width = '100%';
+    newsItem.appendChild(textElement);
+  }
+
+  container.appendChild(newsItem);
+
+}
+
+// Запуск при загрузке страницы
+document.addEventListener('DOMContentLoaded', loadLatestNews);
+
+
+    </script>
+    </header>
+    <main>
+<!-- Wrapper container to align columns consistently -->
+        <h1 style="text-align: center; justify-content: flex-end;">История президентов в Котоссии</h1>
+        <br>
+    </main>
+</body>
