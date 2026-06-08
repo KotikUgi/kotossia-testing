@@ -166,22 +166,30 @@ async function loadLatestNews() {
   newsItem.className = 'news-item';
 
   // Блок для картинок в одну строку
+  // Блок для картинок в одну строку
   if (images.length > 0) {
     const row = document.createElement('div');
     row.className = 'news-images-row';
     row.style.display = 'flex';
     row.style.gap = '10px';
     row.style.flexWrap = 'nowrap'; 
+    row.style.overflowX = 'auto'; // Добавит прокрутку, если картинок слишком много
 
     images.forEach(src => {
       const img = document.createElement('img');
       img.src = src;
-      img.style.maxWidth = '100%';
-      img.style.height = 'auto';
+      
+      // Управление размером изображений
+      img.style.width = '25%';      // Фиксированная ширина для каждой картинки
+      img.style.height = '25%';     // Фиксированная высота (сделайте квадратными)
+      img.style.objectFit = 'cover';  // Обрезает края, сохраняя пропорции без искажений
+      img.style.borderRadius = '8px'; // Необязательно: скругленные углы для красоты
+      
       row.appendChild(img);
     });
     newsItem.appendChild(row);
   }
+
 
   // Блок для текста
   if (textContent) {
