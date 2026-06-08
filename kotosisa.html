@@ -1,0 +1,128 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 1. The wrapper limits the image boundaries */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        main {
+            margin: 15;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .img-container {
+            width: 396px;
+            height: 98px;
+            border-radius: 8px; /* Optional rounded corners */
+        }
+
+        /* 2. Default state of the image */
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
+        }
+
+        /* 3. The hover effect trigger */
+        .img-container:hover img {
+            transform: scale(1.01); /* Zooms in by 20% */
+        }
+        header {
+            /* Syntax: linear-gradient(direction, color1, color2, color3) */
+            background: linear-gradient(90deg, #e2b111 33%, #7bceff 0 66%, #be1b1b 0);
+            background: linear-gradient(
+                90deg, 
+                #fff4d1 0%, 
+                #fff4d1 32%, /* End first color */
+                #e1f4ff 34%, /* Start second color */
+                #e1f4ff 65%, /* End second color */
+                #ffd1d1 67%, /* Start third color */
+                #ffd1d1 100%
+            );
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+        }
+        body {
+            font-family: Verdana, sans-serif;
+        }
+        platform-img {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header style="display: flex; justify-content: space-between; align-items: center; width: 100%; box-sizing: border-box; padding: 10px 20px; background-color: #ffffff;">
+        <div class="img-container">
+            <img src="https://raw.githubusercontent.com/KotikUgi/kotossia/main/kotossia logo.png" alt="В Главную страницу">
+        </div>
+        <nav>
+        <ul style="display: flex; list-style: none; margin: 0; padding: 0; gap: 20px;">
+        <li><a href="#" style="text-decoration: none; color: #333;">Главная</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">История президентов</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">Карта Котоссии</a></li>
+        <li><a href="#" style="text-decoration: none; color: #333;">Города Котоссии</a></li>
+        </ul>
+    </nav>
+        <script>
+            // 1. Get the "Raw" URL from your GitHub repository
+            const url = 'https://raw.githubusercontent.com/KotikUgi/kotossia/main/test file';
+
+            // 2. Fetch the data and display it
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('file-content').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('file-content').textContent = 'Error loading file: ' + error.message;
+                });
+        </script>
+
+    </header>
+    <main>
+<!-- Wrapper container to align columns consistently -->
+<div style="display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 15px; width: 100%;">
+
+  <!-- ROW 1: SCRATCH -->
+  <img class="platform-img" src="https://upload.wikimedia.org/wikipedia/commons/7/75/Scratch.logo.S.png" style="width: 24px; height: auto;" alt="Scratch">
+  
+  <p style="margin: 0; padding: 0;">
+    Мы в Scratch: 
+    <a href="https://scratch.mit.edu/studios/50652583/" style="text-decoration: none; color: #333; margin-right: 10px;">https://scratch.mit.edu/studios/50652583/</a>
+    <a href="https://scratch.mit.edu/studios/50661272/" style="text-decoration: none; color: #333; margin-right: 10px;">https://scratch.mit.edu/studios/50661272/</a>
+    <a href="https://scratch.mit.edu/studios/50721280/" style="text-decoration: none; color: #333;">https://scratch.mit.edu/studios/50721280/</a>
+  </p>
+  
+  <p style="color: red; margin: 0; text-align: right; white-space: nowrap;">Scratch заблокирован в РФ</p>
+
+  <!-- ROW 2: TELEGRAM -->
+  <img class="platform-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/960px-Telegram_2019_Logo.svg.png" style="width: 24px; height: auto;" alt="Telegram">
+  
+  <p style="margin: 0; padding: 0;">
+    Мы в Telegram: 
+    <a href="https://t.me/cityKoToBo" style="text-decoration: none; color: #333;">https://t.me/cityKoToBo</a>
+    <a href="https://t.me/City_KoToBo_PoLKa" style="text-decoration: none; color: #333;">https://t.me/City_KoToBo_PoLKa</a>
+  </p>
+  
+  <p style="color: red; margin: 0; text-align: right; white-space: nowrap;">Telegram заблокирован в РФ</p>
+
+</div>
+        <h1 style="text-align: center; justify-content: flex-end;">Cамая последняя новость</h1>
+        <br>
+        <h2 style="text-align: center; justify-content: flex-end;">Заголовок</h1>
+        <p style="text-align: center; width: 50%; margin: 0 auto;">текст</p>
+        <br>
+        <h1 style="text-align: center; justify-content: flex-end;">О стране</h1>
+        <br>
+        <p style="text-align: center; width: 50%; margin: 0 auto;">Котоссия (КФ или Котоссийская Федерация, ранее Кото Край/Кото Страна) - это страна человеко-подобных котов (Почти фурри, но нет). Главные законы: ЛГБТ запрещено, для приезжих законы оцениваются строже (Особенно не к котам).</p>
+    </main>
+</body>
