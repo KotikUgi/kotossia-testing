@@ -102,6 +102,7 @@ async function loadLatestNews() {
     const mid = Math.floor((low + high) / 2);
     try {
       const response = await fetch(`../${mid}.txt`, { method: 'HEAD' });
+      const date = await fetch(`../${mid}_date.txt`, { method: 'HEAD' });
       if (response.ok) {
         highestNumber = mid;
         low = mid + 1;
@@ -119,7 +120,7 @@ async function loadLatestNews() {
   }
 
   container.innerHTML = ''; // Очищаем индикатор загрузки
-
+  container.innerHTML = date;
   // Переменная для отслеживания, вывели ли мы уже хотя бы одну новость
   let isFirstNews = true;
 
