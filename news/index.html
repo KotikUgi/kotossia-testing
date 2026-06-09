@@ -102,7 +102,6 @@ async function loadLatestNews() {
     const mid = Math.floor((low + high) / 2);
     try {
       const response = await fetch(`../${mid}.txt`, { method: 'HEAD' });
-      const date = await fetch(`../${mid}_date.txt`, { method: 'HEAD' });
       if (response.ok) {
         highestNumber = mid;
         low = mid + 1;
@@ -120,16 +119,17 @@ async function loadLatestNews() {
   }
 
   container.innerHTML = ''; // Очищаем индикатор загрузки
-  container.innerHTML = date;
-  // Переменная для отслеживания, вывели ли мы уже хотя бы одну новость
+
   let isFirstNews = true;
 
   // 2. Цикл загрузки всех новостей от highestNumber до 1
   for (let currentId = highestNumber; currentId >= 1; currentId--) {
     let textContent = '';
+    let dateContent = '';
     const images = [];
     const maxImagesToCheck = 10;
 
+    // Запросы на проверку картинок
     const imagePromises = Array.from({ length: maxImagesToCheck }, (_, i) => {
       const index = i + 1;
       const pngPath = `../${currentId}_${index}.png`;
@@ -140,6 +140,7 @@ async function loadLatestNews() {
         .catch(() => null);
     });
 
+    // Запрос на загрузку основного текста
     const textPromise = fetch(`../${currentId}.txt`)
       .then(res => res.ok ? res.text() : '')
       .catch(e => {
@@ -147,28 +148,43 @@ async function loadLatestNews() {
         return '';
       });
 
+    // Запрос на загрузку даты новости
+    const datePromise = fetch(`../${currentId}_date.txt`)
+      .then(res => res.ok ? res.text() : '')
+      .catch(e => {
+        console.error(`Ошибка загрузки даты для новости №${currentId}:`, e);
+        return '';
+      });
+
     try {
-      const [fetchedText, checkedImages] = await Promise.all([textPromise, Promise.all(imagePromises)]);
+      // Запускаем ВСЕ запросы (текст, дата, картинки) параллельно
+      const [fetchedText, fetchedDate, checkedImages] = await Promise.all([
+        textPromise,
+        datePromise,
+        Promise.all(imagePromises)
+      ]);
+      
       textContent = fetchedText;
+      dateContent = fetchedDate.trim(); // Убираем лишние пробелы и переносы строк
       images.push(...checkedImages.filter(path => path !== null));
     } catch (e) {
       console.error(`Ошибка загрузки данных для новости №${currentId}:`, e);
       continue;
     }
 
-    if (!textContent && images.length === 0) continue;
+    // Если нет вообще ничего — пропускаем новость
+    if (!textContent && !dateContent && images.length === 0) continue;
 
-    // ЕСЛИ это НЕ первая выводимая новость, добавляем линию НАВЕРХ перед ней
+    // Добавляем разделительную линию между новостями
     if (!isFirstNews) {
       const hr = document.createElement('hr');
       hr.style.width = '100%';
       hr.style.margin = '30px 0';
       hr.style.border = 'none';
-      hr.style.borderTop = '1px solid #ccc'; // Цвет и толщина линии
+      hr.style.borderTop = '1px solid #ccc';
       container.appendChild(hr);
     }
     
-    // Флаг переключается сразу после того, как первая новость прошла проверку
     isFirstNews = false;
 
     // 3. Создаем HTML-структуру для текущей новости
@@ -179,6 +195,7 @@ async function loadLatestNews() {
     newsItem.style.alignItems = 'center';
     newsItem.style.width = '100%';
 
+    // Выводим картинки, если они есть
     if (images.length > 0) {
       const row = document.createElement('div');
       row.className = 'news-images-row';
@@ -205,13 +222,28 @@ async function loadLatestNews() {
       newsItem.appendChild(row);
     }
 
+    // Выводим дату, если файл успешно загрузился и он не пустой
+    if (dateContent) {
+      const dateElement = document.createElement('span');
+      dateElement.className = 'news-date';
+      dateElement.innerText = dateContent;
+      dateElement.style.textAlign = 'center';
+      dateElement.style.fontSize = '0.85em'; // Слегка уменьшенный шрифт
+      dateElement.style.color = '#666';       // Серый цвет для даты
+      dateElement.style.marginTop = '15px';
+      dateElement.style.fontWeight = 'bold';
+      newsItem.appendChild(dateElement);
+    }
+
+    // Выводим основной текст новости
     if (textContent) {
       const textElement = document.createElement('p');
       textElement.className = 'news-text';
       textElement.innerText = textContent;
       textElement.style.textAlign = 'center';
       textElement.style.width = '100%';
-      textElement.style.marginTop = '15px'; // Отступ текста от картинок
+      // Если дата есть, делаем отступ поменьше, если даты нет — стандартный
+      textElement.style.marginTop = dateContent ? '5px' : '15px';
       newsItem.appendChild(textElement);
     }
 
@@ -220,9 +252,6 @@ async function loadLatestNews() {
 }
 
 document.addEventListener('DOMContentLoaded', loadLatestNews);
-
-
-
 
     </script>
     </header>
