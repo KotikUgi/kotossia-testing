@@ -13,6 +13,25 @@
             margin: 15;
             padding: 0;
             box-sizing: border-box;
+              width: 100%;
+  min-height: 100vh; /* Пример: растягиваем main на всю высоту экрана */
+  
+  /* 1. Задаем градиенты */
+  background-image: 
+    linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+    linear-gradient(
+                90deg, 
+                #fff4d1 0%, 
+                #fff4d1 32%, /* End first color */
+                #e1f4ff 34%, /* Start second color */
+                #e1f4ff 65%, /* End second color */
+                #ffd1d1 67%, /* Start third color */
+                #ffd1d1 100%
+            );
+    
+  /* 2. Управляем размером и повторением */
+  background-size: 100% 200px; /* Ширина 100%, Высота градиента ровно 200px */
+  background-repeat: no-repeat;  /* Запрещаем градиенту повторяться вниз */
         }
         .img-container {
             width: 396px;
@@ -50,28 +69,6 @@
         body {
             font-family: Verdana, sans-serif;
         }
-        main {
-  width: 100%;
-  min-height: 100vh; /* Пример: растягиваем main на всю высоту экрана */
-  
-  /* 1. Задаем градиенты */
-  background-image: 
-    linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-    linear-gradient(
-                90deg, 
-                #fff4d1 0%, 
-                #fff4d1 32%, /* End first color */
-                #e1f4ff 34%, /* Start second color */
-                #e1f4ff 65%, /* End second color */
-                #ffd1d1 67%, /* Start third color */
-                #ffd1d1 100%
-            );
-    
-  /* 2. Управляем размером и повторением */
-  background-size: 100% 200px; /* Ширина 100%, Высота градиента ровно 200px */
-  background-repeat: no-repeat;  /* Запрещаем градиенту повторяться вниз */
-}
-
         platform-img {
             display: block;
             margin: 0 auto;
