@@ -92,22 +92,24 @@ async function loadLatestNews() {
   const container = document.querySelector('.latest-news');
   if (!container) return;
   container.innerHTML = '<p>грузим :33</p>';
-  let highestNumber = 0;
-  let checkedNumber = 1;
-  const maxCheck = 500; 
 
-  // 1. Ищем самый большой существующий номер по наличию .txt файла
-  while (checkedNumber <= maxCheck) {
+  // 1. Быстрый бинарный поиск последней новости за O(log N) вместо O(N)
+  let low = 1;
+  let high = 500;
+  let highestNumber = 0;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
     try {
-      const response = await fetch(`../${checkedNumber}.txt`, { method: 'HEAD' });
+      const response = await fetch(`../${mid}.txt`, { method: 'HEAD' });
       if (response.ok) {
-        highestNumber = checkedNumber;
-        checkedNumber++;
+        highestNumber = mid; // Запоминаем последний успешный id
+        low = mid + 1;       // Ищем дальше в правой половине
       } else {
-        break; 
+        high = mid - 1;      // Ищем в левой половине
       }
-    } catch (error) {
-      break;
+    } catch {
+      high = mid - 1;
     }
   }
 
@@ -116,60 +118,51 @@ async function loadLatestNews() {
     return;
   }
 
-  // 2. Загружаем текст для найденного номера
+  // 2. Параллельная загрузка текста и проверка картинок
   let textContent = '';
-  try {
-    const textResponse = await fetch(`../${highestNumber}.txt`);
-    if (textResponse.ok) {
-      textContent = await textResponse.text();
-    }
-  } catch (e) {
-    container.innerHTML = '<p>ошибка загрузки текста. посмотрите в консоль</p>';
-    console.error("Ошибка загрузки текста:", e);
-  }
-
-  // 3. Ищем все связанные изображения (.png или .jpg)
   const images = [];
-  let imageIndex = 1;
+  const maxImagesToCheck = 10; // Ограничим разумным числом за раз
 
-  while (true) {
-    const pngPath = `../${highestNumber}_${imageIndex}.png`;
-    const jpgPath = `../${highestNumber}_${imageIndex}.jpg`;
-    let foundPath = null;
+  // Готовим массив промисов для одновременной проверки картинок
+  const imagePromises = Array.from({ length: maxImagesToCheck }, (_, i) => {
+    const index = i + 1;
+    const pngPath = `../${highestNumber}_${index}.png`;
+    const jpgPath = `../${highestNumber}_${index}.jpg`;
 
-    try {
-      // Сначала проверяем PNG
-      let imgResponse = await fetch(pngPath, { method: 'HEAD' });
-      if (imgResponse.ok) {
-        foundPath = pngPath;
-      } else {
-        // Если PNG нет, проверяем JPG
-        imgResponse = await fetch(jpgPath, { method: 'HEAD' });
-        if (imgResponse.ok) {
-          foundPath = jpgPath;
-        }
-      }
+    // Функция проверяет сначала PNG, затем JPG
+    return fetch(pngPath, { method: 'HEAD' })
+      .then(res => res.ok ? pngPath : fetch(jpgPath, { method: 'HEAD' }).then(resJpg => resJpg.ok ? jpgPath : null))
+      .catch(() => null);
+  });
 
-      // Если нашли картинку любого формата — добавляем и идем дальше
-      if (foundPath) {
-        images.push(foundPath);
-        imageIndex++;
-      } else {
-        break; // Прерываем цикл, если под этим индексом нет ни png, ни jpg
-      }
-    } catch (e) {
-      container.innerHTML = '<p>ошибка загрузки картинок. посмотрите в консоль</p>';
-      console.error("Ошибка загрузки картинок:", e);
-      break;
-    }
+  // Загружаем текст
+  const textPromise = fetch(`../${highestNumber}.txt`)
+    .then(res => res.ok ? res.text() : '')
+    .catch(e => {
+      console.error("Ошибка загрузки текста:", e);
+      return '';
+    });
+
+  // Выполняем ВСЕ запросы одновременно
+  try {
+    const [fetchedText, checkedImages] = await Promise.all([textPromise, Promise.all(imagePromises)]);
+    textContent = fetchedText;
+    // Фильтруем только успешно найденные пути к картинкам
+    images.push(...checkedImages.filter(path => path !== null));
+  } catch (e) {
+    container.innerHTML = '<p>ошибка загрузки данных. посмотрите в консоль</p>';
+    console.error(e);
+    return;
   }
+
   container.innerHTML = '';
-  // 4. Создаем HTML-структуру и добавляем в контейнер
+
+  // 3. Создаем HTML-структуру (код рендеринга оставлен без изменений)
   const newsItem = document.createElement('div');
   newsItem.className = 'news-item';
   newsItem.style.display = 'flex';
   newsItem.style.flexDirection = 'column';
-  newsItem.style.alignItems = 'center'; // Центрирует строку с картинками и текст по горизонтали
+  newsItem.style.alignItems = 'center';
   newsItem.style.width = '100%';
 
   if (images.length > 0) {
@@ -177,45 +170,38 @@ async function loadLatestNews() {
     row.className = 'news-images-row';
     row.style.display = 'flex';
     row.style.gap = '10px';
-    row.style.flexWrap = 'nowrap'; 
+    row.style.flexWrap = 'nowrap';
     row.style.alignItems = 'stretch';
-    row.style.justifyContent = 'center'; // Центрирует картинки внутри самой строки, если их меньше 4
+    row.style.justifyContent = 'center';
     row.style.width = '100%';
 
     images.forEach((src, index) => {
       const img = document.createElement('img');
       img.src = src;
-      
-      img.style.width = 'calc(25% - 7.5px)'; 
+      img.style.width = 'calc(25% - 7.5px)';
       img.style.objectFit = 'cover';
-      img.style.objectPosition = 'center'; // Центрирует содержимое внутри каждой картинки
-
+      img.style.objectPosition = 'center';
       if (index === 0) {
-        img.style.height = 'auto'; 
+        img.style.height = 'auto';
       } else {
-        img.style.height = '100%'; 
+        img.style.height = '100%';
       }
-      
       row.appendChild(img);
     });
     newsItem.appendChild(row);
   }
 
-  // Блок для текста
   if (textContent) {
     const textElement = document.createElement('p');
     textElement.className = 'news-text';
     textElement.innerText = textContent;
-    textElement.style.textAlign = 'center'; // Центрирует текст внутри параграфа
+    textElement.style.textAlign = 'center';
     textElement.style.width = '100%';
     newsItem.appendChild(textElement);
   }
-
   container.appendChild(newsItem);
-
 }
 
-// Запуск при загрузке страницы
 document.addEventListener('DOMContentLoaded', loadLatestNews);
 
 
