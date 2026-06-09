@@ -118,7 +118,10 @@ async function loadLatestNews() {
     return;
   }
 
-  container.innerHTML = ''; // Очищаем индикатор загрузки перед выводом
+  container.innerHTML = ''; // Очищаем индикатор загрузки
+
+  // Переменная для отслеживания, вывели ли мы уже хотя бы одну новость
+  let isFirstNews = true;
 
   // 2. Цикл загрузки всех новостей от highestNumber до 1
   for (let currentId = highestNumber; currentId >= 1; currentId--) {
@@ -126,7 +129,6 @@ async function loadLatestNews() {
     const images = [];
     const maxImagesToCheck = 10;
 
-    // Проверяем картинки для текущей новости
     const imagePromises = Array.from({ length: maxImagesToCheck }, (_, i) => {
       const index = i + 1;
       const pngPath = `../${currentId}_${index}.png`;
@@ -137,7 +139,6 @@ async function loadLatestNews() {
         .catch(() => null);
     });
 
-    // Загружаем текст для текущей новости
     const textPromise = fetch(`../${currentId}.txt`)
       .then(res => res.ok ? res.text() : '')
       .catch(e => {
@@ -151,11 +152,23 @@ async function loadLatestNews() {
       images.push(...checkedImages.filter(path => path !== null));
     } catch (e) {
       console.error(`Ошибка загрузки данных для новости №${currentId}:`, e);
-      continue; // Пропускаем проблемную новость и идем дальше
+      continue;
     }
 
-    // Если нет ни текста, ни картинок — пропускаем (например, новость была удалена)
     if (!textContent && images.length === 0) continue;
+
+    // ЕСЛИ это НЕ первая выводимая новость, добавляем линию НАВЕРХ перед ней
+    if (!isFirstNews) {
+      const hr = document.createElement('hr');
+      hr.style.width = '100%';
+      hr.style.margin = '30px 0';
+      hr.style.border = 'none';
+      hr.style.borderTop = '1px solid #ccc'; // Цвет и толщина линии
+      container.appendChild(hr);
+    }
+    
+    // Флаг переключается сразу после того, как первая новость прошла проверку
+    isFirstNews = false;
 
     // 3. Создаем HTML-структуру для текущей новости
     const newsItem = document.createElement('div');
@@ -164,7 +177,6 @@ async function loadLatestNews() {
     newsItem.style.flexDirection = 'column';
     newsItem.style.alignItems = 'center';
     newsItem.style.width = '100%';
-    newsItem.style.marginBottom = '30px'; // Добавили отступ между новостями
 
     if (images.length > 0) {
       const row = document.createElement('div');
@@ -198,15 +210,16 @@ async function loadLatestNews() {
       textElement.innerText = textContent;
       textElement.style.textAlign = 'center';
       textElement.style.width = '100%';
+      textElement.style.marginTop = '15px'; // Отступ текста от картинок
       newsItem.appendChild(textElement);
     }
 
-    // Добавляем новость в конец контейнера (так как идем сверху вниз)
     container.appendChild(newsItem);
   }
 }
 
 document.addEventListener('DOMContentLoaded', loadLatestNews);
+
 
 
 
