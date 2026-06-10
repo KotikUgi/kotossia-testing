@@ -91,7 +91,6 @@ header {
     display: block;
     width: 396px;
     height: 98px;
-    overflow: hidden; 
 }
 
 .img-container img {
@@ -130,11 +129,6 @@ header nav ul li a:hover {
     color: #be1b1b; 
 }
 
-
-        platform-img {
-            display: block;
-            margin: 0 auto;
-        }
 
         /* ==========================================================================
            5. Подвал (Footer)
