@@ -27,25 +27,26 @@ main {
 
 footer {
   width: 100%;
-  /* Исправление: меняем жесткий 100vh на авто-высоту, чтобы подстраиваться под контент */
-  height: auto;
-  min-height: 100vh; 
-  
+  min-height: 100vh;
   box-sizing: border-box;
-  margin: 0;
-  padding: 40px 20px; /* Добавьте внутренние отступы, чтобы контент не прилипал */
-  
-  /* Убираем overflow, который может прятать фоны */
-  overflow: visible; 
+  margin: 0; 
+  padding: 0;
+  overflow: hidden; 
 
+  /* РЕШЕНИЕ: Разделяем размеры для двух слоев фона */
   background-image: 
-    linear-gradient(to bottom, #ffffff 0px, rgba(255, 255, 255, 0) 150px), 
+    /* 1. Белое размытие ровно на 150 пикселей */
+    linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%), 
+    /* 2. Цветные полосы, которые будут идти бесконечно вниз */
     linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
   
-  /* Важно: заставляем браузер повторять цветной фон по вертикали, если футер станет длинным */
-  background-size: 100% auto;
-  background-repeat: repeat-y; 
+  /* ВАЖНО: Первый слой делаем высотой 150px, второй слой — на всю высоту (100%) */
+  background-size: 100% 150px, 100% 100%; 
+  
+  /* Запрещаем повторяться белому размытию, чтобы оно не появилось снова внизу */
+  background-repeat: no-repeat, no-repeat;
 }
+
 
         .img-container {
             width: 396px;
