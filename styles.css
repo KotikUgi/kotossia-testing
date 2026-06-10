@@ -31,16 +31,17 @@ footer {
   padding: 0;
   overflow: hidden; 
 
-  /* ИСПРАВЛЕННЫЙ НАБОР ГРАДИЕНТОВ */
   background-image: 
-    /* 1. Этот слой создает плавное проявление (fade in) сверху вниз */
-    linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 20%), 
-    /* 2. Основные цветные полосы */
+    /* 1. Эффект проявления: сверху белый, к 150px становится прозрачным */
+    linear-gradient(to bottom, #ffffff 0px, rgba(255, 255, 255, 0) 150px), 
+    /* 2. Основные цветные полосы без обрыва */
     linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
   
-  background-size: 100% 100%; /* Растягиваем на всю высоту, чтобы цвета не исчезали */
+  /* ИСПРАВЛЕНИЕ: Растягиваем фон на 100% ширины и 100% всей высоты блока */
+  background-size: 100% 100%; 
   background-repeat: no-repeat;
 }
+
 
 
         .img-container {
