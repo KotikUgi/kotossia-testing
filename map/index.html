@@ -3,39 +3,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../styles.css">
 
-<style>
-.zoom-container {
-  width: 100%;
-  max-width: 600px;
-  height: 400px;
-  margin: 0 auto;
-  overflow: hidden;
-  position: relative;
-  cursor: zoom-in;
-  background-color: #f0f0f0;
-  touch-action: none; /* Отключает стандартный скролл браузера на мобильных */
-}
-
-.zoom-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform-origin: center center;
-  transition: transform 0.1s ease-out;
-  
-  /* ЗАЩИТА ОТ ДРАГА БРАУЗЕРА */
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Manrope:wght@200..800&family=Pliant:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
