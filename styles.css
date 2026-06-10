@@ -24,30 +24,29 @@ main {
   background-repeat: no-repeat;
 }
 
-        .img-container {
-            width: 396px;
-            height: 98px;
-            border-radius: 8px; /* Optional rounded corners */
-                  /* Modern standard (Chrome, Edge, Safari, Firefox) */
-  image-rendering: pixelated;
-  
-  /* Fallback for older Firefox versions */
-  image-rendering: crisp-edges;
-  image-rendering: -moz-crisp-edges;
-  
-  /* Fallback for older Safari/Webkit versions */
-  image-rendering: -webkit-optimize-contrast;
-  
-  /* Legacy Internet Explorer fallback */
-  -ms-interpolation-mode: nearest-neighbor; 
-        }
+ .img-container {
+    width: 396px;
+    height: 98px;
+    border-radius: 8px; 
+    
+    /* FIX 1: Prevents the zoomed image from spilling out of the rounded corners */
+    overflow: hidden; 
+}
 
-        /* 2. Default state of the image */
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
-        }
+/* 2. Default state of the image */
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Optional: ensures image fills the container nicely */
+    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
+
+    /* FIX 2: Apply the pixelated rendering directly to the image element */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor; 
+}
 
         /* 3. The hover effect trigger */
         .img-container:hover img {
