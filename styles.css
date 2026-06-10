@@ -1,116 +1,98 @@
-        /* ==========================================================================
-           1. Сброс стилей и базовая разметка высоты (Sticky Footer)
-           ========================================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* 1. Этот блок ОБЯЗАТЕЛЬНО должен быть применен к html и body */
+html {
+    height: 100%;
+}
 
-        html, body {
-            height: 100%;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%; /* Гарантирует высоту на весь экран */
+    
+    /* Включаем двухстрочный CSS Grid layout */
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Шапка, Контент (растягивается), Подвал */
+    
+    font-family: "Pliant", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
 
-        body {
-            font-family: "Pliant", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 300;
-            font-style: normal;
-            font-variation-settings: "wdth" 100;
-            
-            /* Делаем body флекс-контейнером с вертикальной ориентацией */
-            display: flex;
-            flex-direction: column;
-        }
+/* 2. Обновленный блок MAIN */
+main {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0; 
+    padding: 0;
+    overflow: hidden; 
 
-        /* ==========================================================================
-           2. Шапка (Header)
-           ========================================================================== */
-        header {
-            background: linear-gradient(90deg, #e2b111 33%, #7bceff 0 66%, #be1b1b 0);
-            background: linear-gradient(
-                90deg, 
-                #fff4d1 0%, 
-                #fff4d1 32%, 
-                #e1f4ff 34%, 
-                #e1f4ff 65%, 
-                #ffd1d1 67%, 
-                #ffd1d1 100%
-            );
-            padding: 40px 20px;
-            color: white;
-            text-align: center;
-        }
+    /* Ваши градиенты */
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                      linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+    background-size: 100% 200px;
+    background-repeat: no-repeat;
+}
 
-        /* ==========================================================================
-           3. Главный контент (Main) — Растягивается и прижимает футер вниз
-           ========================================================================== */
-        main {
-            width: 100%;
-            box-sizing: border-box;
-            margin: 0px; 
-            padding: 20px; /* Добавлен внутренний отступ для контента */
-            overflow: hidden; 
-            
-            /* Заставляет блок main занимать все доступное пространство по вертикали */
-            flex: 1 0 auto; 
+/* 3. Обновленный блок FOOTER */
+footer {
+    width: 100%;
+    height: 200px; 
+    padding: 10px 0; 
+    
+    /* Ваши градиенты */
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                      linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
 
-            background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                              linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-            background-size: 100% 200px;
-            background-repeat: no-repeat;
-        }
+/* 4. Остальные стили без изменений */
+* {
+    box-sizing: border-box;
+}
 
-        /* ==========================================================================
-           4. Контейнеры для изображений и кастомные элементы внутри Main
-           ========================================================================== */
-        .img-container {
-            width: 396px;
-            height: 98px;
-            margin: 0 auto; /* Центрируем контейнер на странице */
-            overflow: hidden; /* Скрывает края картинки при увеличении scale */
-        }
+footer p {
+    margin: 0;
+    padding: 2px 0; 
+    text-align: center; 
+}
 
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
-            image-rendering: pixelated;   
-            image-rendering: crisp-edges; 
-            
-            /* Защита от размытия и мерцания при анимации */
-            transform: translateZ(0); 
-            backface-visibility: hidden;
-        }
+.img-container {
+    width: 396px;
+    height: 98px;
+}
 
-        .img-container:hover img {
-            transform: scale(1.02); 
-        }
+.img-container img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
+    image-rendering: pixelated;   
+    image-rendering: crisp-edges; 
+    transform: translateZ(0); 
+    backface-visibility: hidden;
+}
 
-        platform-img {
-            display: block;
-            margin: 0 auto;
-        }
+.img-container:hover img {
+    transform: scale(1.02); 
+}
 
-        /* ==========================================================================
-           5. Подвал (Footer)
-           ========================================================================== */
-        footer {
-            width: 100%;
-            height: 200px; 
-            padding: 10px 0; 
-            
-            /* Запрещает футеру сжиматься меньше заданной высоты */
-            flex-shrink: 0; 
-            
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                              linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        }
+header {
+    background: linear-gradient(
+        90deg, 
+        #fff4d1 0%, 
+        #fff4d1 32%, 
+        #e1f4ff 34%, 
+        #e1f4ff 65%, 
+        #ffd1d1 67%, 
+        #ffd1d1 100%
+    );
+    padding: 40px 20px;
+    color: white;
+    text-align: center;
+}
 
-        footer p {
-            margin: 0;
-            padding: 2px 0; 
-            text-align: center; 
-        }
+platform-img {
+    display: block;
+    margin: 0 auto;
+}
