@@ -23,41 +23,6 @@ main {
   background-size: 100% 200px;
   background-repeat: no-repeat;
 }
-footer {
-  width: 100%;
-  /* Меняем min-height на auto или оставляем 100vh, если футер должен быть на весь экран */
-  min-height: 100vh; 
-  box-sizing: border-box;
-  margin: 0; 
-  padding: 0;
-  
-  /* Убираем overflow: hidden, чтобы контент не резался */
-  overflow: visible; 
-
-  /* ОДИН градиент: плавно переходит от белого к цветным полосам */
-  background-image: linear-gradient(
-    90deg, 
-    #fff4d1 0%, #fff4d1 32%, 
-    #e1f4ff 34%, #e1f4ff 65%, 
-    #ffd1d1 67%, #ffd1d1 100%
-  );
-  
-  /* Псевдоэлемент сверху создаст идеальное размытие без багов с размерами */
-  position: relative;
-}
-
-/* Создаем маску для плавного появления */
-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200px; /* Высота зоны размытия */
-  background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  pointer-events: none; /* Чтобы маска не мешала кликать на ссылки в футере */
-}
-
 
 
 
