@@ -28,6 +28,18 @@ main {
             width: 396px;
             height: 98px;
             border-radius: 8px; /* Optional rounded corners */
+                  /* Modern standard (Chrome, Edge, Safari, Firefox) */
+  image-rendering: pixelated;
+  
+  /* Fallback for older Firefox versions */
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  
+  /* Fallback for older Safari/Webkit versions */
+  image-rendering: -webkit-optimize-contrast;
+  
+  /* Legacy Internet Explorer fallback */
+  -ms-interpolation-mode: nearest-neighbor; 
         }
 
         /* 2. Default state of the image */
