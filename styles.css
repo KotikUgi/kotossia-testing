@@ -29,38 +29,34 @@ main {
     height: 98px;
     border-radius: 8px; 
     
-    /* Chrome Fix: Force a hardware-accelerated layer context on the container */
-    isolation: isolate; 
+    /* Remove overflow: hidden so it doesn't cut off */
+    overflow: visible; 
+
+    /* Smooth transition applied to the container instead */
+    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
+    
+    /* Chrome 3D rendering context fix */
+    transform: perspective(1px) translateZ(0);
 }
 
-/* 2. Default state of the image */
+/* Default state of the image */
 .img-container img {
     width: 100%;
     height: 100%;
-    
-    /* 
-       Chrome Fix: translateZ(0) and perspective(1px) force Chrome 
-       to compute layout values without anti-aliasing the edges during transition.
-    */
-    transform: perspective(1px) translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-
-    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
+    display: block;
+    border-radius: 8px; /* Apply the rounded corners directly to the image */
 
     /* Force nearest-neighbor pixelated zoom */
-    image-rendering: pixelated; /* Chrome standard */
+    image-rendering: pixelated;
     image-rendering: crisp-edges;
-    image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
-    -ms-interpolation-mode: nearest-neighbor; 
 }
 
-/* 3. The hover effect trigger */
-.img-container:hover img {
-    /* Chrome Fix: Keep the 1px perspective active while scaling up by 20% */
-    transform: perspective(1px) scale(1.02) translateZ(0); 
+/* Hover effect scales everything outwards without clipping */
+.img-container:hover {
+    transform: perspective(1px) scale(1.2) translateZ(0); 
 }
+
         header {
             /* Syntax: linear-gradient(direction, color1, color2, color3) */
             background: linear-gradient(90deg, #e2b111 33%, #7bceff 0 66%, #be1b1b 0);
