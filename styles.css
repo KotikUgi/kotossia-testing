@@ -1,96 +1,116 @@
-        /* 1. The wrapper limits the image boundaries */
+        /* ==========================================================================
+           1. Сброс стилей и базовая разметка высоты (Sticky Footer)
+           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-main {
-  width: 100%;
-  min-height: auto; /* ИЗМЕНЕНО: теперь блок не растягивается насильно на весь экран */
-  box-sizing: border-box;
-  margin: 0px; 
-  padding: 0 0 40px 0; /* ДОБАВЛЕНО: небольшой аккуратный отступ снизу до футера (40px) */
-  overflow: hidden; 
-
-  background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                    linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-  background-size: 100% 100%; /* ИЗМЕНЕНО: градиент теперь подстраивается под размер контента */
-  background-repeat: no-repeat;
-}
-
-
-
-footer {
-  width: 100%;
-  height: 200px; 
-  padding: 10px 0; /* Минимальный аккуратный отступ */
-  
-  /* Тот самый трехцветный градиент */
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                    linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-/* Сбрасываем гигантские дефолтные отступы у ваших 3-х абзацев */
-footer p {
-  margin: 0;
-  padding: 2px 0; /* Минимальное расстояние между строками */
-  text-align: center; /* Центрируем текст для красоты */
-}
-
-
-
-        .img-container {
-            width: 396px;
-            height: 98px;
-        }
-
-        /* 2. Default state of the image */
-        .img-container img {
-            width: 100%;
+        html, body {
             height: 100%;
-            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
-  image-rendering: pixelated;   /* Modern Chromium/Blink engines */
-  image-rendering: crisp-edges; /* Safari, Firefox, and legacy engines */
-  
-  /* Prevent blur during hardware-accelerated transitions */
-  transform: translateZ(0); 
-  backface-visibility: hidden;
-
         }
 
-        /* 3. The hover effect trigger */
-        .img-container:hover img {
-            transform: scale(1.02); /* Zooms in by 20% */
+        body {
+            font-family: "Pliant", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            
+            /* Делаем body флекс-контейнером с вертикальной ориентацией */
+            display: flex;
+            flex-direction: column;
         }
 
+        /* ==========================================================================
+           2. Шапка (Header)
+           ========================================================================== */
         header {
-            /* Syntax: linear-gradient(direction, color1, color2, color3) */
             background: linear-gradient(90deg, #e2b111 33%, #7bceff 0 66%, #be1b1b 0);
             background: linear-gradient(
                 90deg, 
                 #fff4d1 0%, 
-                #fff4d1 32%, /* End first color */
-                #e1f4ff 34%, /* Start second color */
-                #e1f4ff 65%, /* End second color */
-                #ffd1d1 67%, /* Start third color */
+                #fff4d1 32%, 
+                #e1f4ff 34%, 
+                #e1f4ff 65%, 
+                #ffd1d1 67%, 
                 #ffd1d1 100%
             );
             padding: 40px 20px;
             color: white;
             text-align: center;
         }
-        body {
-  font-family: "Pliant", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+
+        /* ==========================================================================
+           3. Главный контент (Main) — Растягивается и прижимает футер вниз
+           ========================================================================== */
+        main {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0px; 
+            padding: 20px; /* Добавлен внутренний отступ для контента */
+            overflow: hidden; 
+            
+            /* Заставляет блок main занимать все доступное пространство по вертикали */
+            flex: 1 0 auto; 
+
+            background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                              linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+            background-size: 100% 200px;
+            background-repeat: no-repeat;
         }
+
+        /* ==========================================================================
+           4. Контейнеры для изображений и кастомные элементы внутри Main
+           ========================================================================== */
+        .img-container {
+            width: 396px;
+            height: 98px;
+            margin: 0 auto; /* Центрируем контейнер на странице */
+            overflow: hidden; /* Скрывает края картинки при увеличении scale */
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
+            image-rendering: pixelated;   
+            image-rendering: crisp-edges; 
+            
+            /* Защита от размытия и мерцания при анимации */
+            transform: translateZ(0); 
+            backface-visibility: hidden;
+        }
+
+        .img-container:hover img {
+            transform: scale(1.02); 
+        }
+
         platform-img {
             display: block;
             margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           5. Подвал (Footer)
+           ========================================================================== */
+        footer {
+            width: 100%;
+            height: 200px; 
+            padding: 10px 0; 
+            
+            /* Запрещает футеру сжиматься меньше заданной высоты */
+            flex-shrink: 0; 
+            
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                              linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        footer p {
+            margin: 0;
+            padding: 2px 0; 
+            text-align: center; 
         }
