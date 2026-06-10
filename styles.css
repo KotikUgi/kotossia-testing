@@ -28,9 +28,10 @@ main {
 
 footer {
   width: 100%;
-  height: 200px;
+  /* 1. Уменьшили высоту самого футера */
+  height: 80px; 
   
-  /* Развернули верхний градиент: вместо 'to top' сделали 'to bottom' */
+  /* 2. Градиент развернут вниз, белый цвет плавно скрывает полосы */
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
                     linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
   background-size: 100% 100%;
