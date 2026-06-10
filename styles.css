@@ -28,15 +28,19 @@ main {
 
 footer {
   width: 100%;
-  /* 1. Уменьшили высоту самого футера */
-  height: 80px; 
+  /* 1. Минимальная высота: блок сожмется под размер текста */
+  height: auto; 
   
-  /* 2. Градиент развернут вниз, белый цвет плавно скрывает полосы */
+  /* 2. Небольшие аккуратные отступы сверху и снизу от текста */
+  padding: 15px 0; 
+  
+  /* 3. Градиент автоматически растянется на эту небольшую высоту */
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
                     linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
+
 
         .img-container {
             width: 396px;
