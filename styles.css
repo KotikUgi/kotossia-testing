@@ -24,34 +24,45 @@ main {
   background-repeat: no-repeat;
 }
 
- .img-container {
+.img-container {
     width: 396px;
     height: 98px;
     border-radius: 8px; 
+    overflow: hidden; /* Clips the scaling image inside the rounded corners */
     
-    /* FIX 1: Prevents the zoomed image from spilling out of the rounded corners */
-    overflow: hidden; 
+    /* Chrome Fix: Force a hardware-accelerated layer context on the container */
+    isolation: isolate; 
 }
 
 /* 2. Default state of the image */
 .img-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Optional: ensures image fills the container nicely */
+    object-fit: cover;
+    
+    /* 
+       Chrome Fix: translateZ(0) and perspective(1px) force Chrome 
+       to compute layout values without anti-aliasing the edges during transition.
+    */
+    transform: perspective(1px) translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
     transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
 
-    /* FIX 2: Apply the pixelated rendering directly to the image element */
-    image-rendering: pixelated;
+    /* Force nearest-neighbor pixelated zoom */
+    image-rendering: pixelated; /* Chrome standard */
     image-rendering: crisp-edges;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor; 
 }
 
-        /* 3. The hover effect trigger */
-        .img-container:hover img {
-            transform: scale(1.01); /* Zooms in by 20% */
-        }
+/* 3. The hover effect trigger */
+.img-container:hover img {
+    /* Chrome Fix: Keep the 1px perspective active while scaling up by 20% */
+    transform: perspective(1px) scale(1.02) translateZ(0); 
+}
         header {
             /* Syntax: linear-gradient(direction, color1, color2, color3) */
             background: linear-gradient(90deg, #e2b111 33%, #7bceff 0 66%, #be1b1b 0);
