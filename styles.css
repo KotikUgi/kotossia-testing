@@ -28,44 +28,14 @@ main {
 
 footer {
   width: 100%;
-  min-height: 100vh;
-  box-sizing: border-box;
-  margin: 0; 
-  padding: 0;
-  overflow: hidden; 
-
-  /* 1. Основной фон — ТОЛЬКО цветные полосы на всю высоту */
-  background-image: linear-gradient(
-    90deg, 
-    #fff4d1 0%, #fff4d1 32%, 
-    #e1f4ff 34%, #e1f4ff 65%, 
-    #ffd1d1 67%, #ffd1d1 100%
-  );
+  height: 200px;
+  
+  /* Развернули верхний градиент: вместо 'to top' сделали 'to bottom' */
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                    linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
-
-  /* 2. Важно для позиционирования маски размытия */
-  position: relative; 
 }
-
-/* 3. Создаем независимый слой для плавного проявления */
-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  
-  /* Высота зоны плавного появления (изменяйте этот параметр под себя) */
-  height: 200px; 
-  
-  /* Плавный переход от чисто белого к абсолютно прозрачному */
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-  
-  /* Защита, чтобы маска не мешала выделять текст или кликать по ссылкам */
-  pointer-events: none; 
-}
-
 
         .img-container {
             width: 396px;
