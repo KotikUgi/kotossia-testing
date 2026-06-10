@@ -2,6 +2,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../styles.css">
+    <style><div class="zoom-container" id="zoomContainer">
+  <img src="https://picsum.photos" alt="Zoomable" id="zoomImage">
+</div>
+
+<style>
+.zoom-container {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  background-color: #f0f0f0;
+  touch-action: none; /* Отключает стандартный скролл браузера на мобильных */
+}
+
+.zoom-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
+}
+</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Manrope:wght@200..800&family=Pliant:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
@@ -176,7 +204,10 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
     <main>
 <!-- Wrapper container to align columns consistently -->
         <h1 style="text-align: center; justify-content: flex-end;">Карта Котоссии</h1>
+        <br>
+        <div class="zoom-container">
         <img src="../kotossiaMap.jpg" style="display: block; margin-left: auto; margin-right: auto;">
+        </div>
         <p style="text-align: center; justify-content: flex-end; color: gray;">Карта создана 30 ноября 2024 г. в 20:32 по ЕКБ.</h1>
     </main>
     <footer style="padding-top: 20px; text-align: center;">
