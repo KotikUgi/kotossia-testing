@@ -160,49 +160,45 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
 
     </script>
     </header>
-    <main>
-<!-- Wrapper container to align columns consistently -->
-<div style="display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 15px; width: 100%; box-sizing: border-box; padding: 0 20px;">
+<main>
+  <!-- Wrapper container to align columns consistently -->
+  <div style="display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 15px; width: 100%; box-sizing: border-box; padding: 0 20px;">
 
-  <!-- ROW 1: SCRATCH -->
-  <img class="platform-img" src="https://upload.wikimedia.org/wikipedia/commons/7/75/Scratch.logo.S.png" style="width: 24px; height: auto;" alt="Scratch">
-  
-  <p style="margin: 0; padding: 0;">
-    Мы в Scratch: 
-    <a href="https://scratch.mit.edu/studios/50652583/" style="text-decoration: none; color: #333; margin-right: 10px;">https://scratch.mit.edu/studios/50652583/</a>
-    <a href="https://scratch.mit.edu/studios/50661272/" style="text-decoration: none; color: #333; margin-right: 10px;">https://scratch.mit.edu/studios/50661272/</a>
-    <a href="https://scratch.mit.edu/studios/50721280/" style="text-decoration: none; color: #333;">https://scratch.mit.edu/studios/50721280/</a>
-  </p>
-  
-  <p style="color: red; margin: 0; text-align: right; white-space: nowrap;">Scratch заблокирован в РФ</p>
+    <!-- ROW 1: SCRATCH -->
+    <img class="platform-img" src="https://upload.wikimedia.org/wikipedia/commons/7/75/Scratch.logo.S.png" style="width: 24px; height: auto;" alt="Scratch">
+    
+    <p style="margin: 0; padding: 0;">
+      Мы в Scratch: 
+      <a href="https://scratch.mit.edu/studios/50652583/" style="text-decoration: none; color: #333; margin-right: 10px;">https://scratch.mit.edu/studios/50652583/</a>
+      <a href="https://scratch.mit.edu/studios/50661272/" style="text-decoration: none; color: #333; margin-right: 10px;">https://scratch.mit.edu/studios/50661272/</a>
+      <a href="https://scratch.mit.edu/studios/50721280/" style="text-decoration: none; color: #333;">https://scratch.mit.edu/studios/50721280/</a>
+    </p>
+    
+    <p style="color: red; margin: 0; text-align: right; white-space: nowrap;">Scratch заблокирован в РФ</p>
 
-  <!-- ROW 2: TELEGRAM -->
-  <img class="platform-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/960px-Telegram_2019_Logo.svg.png" style="width: 24px; height: auto;" alt="Telegram">
-  
-  <p style="margin: 0; padding: 0;">
-    Мы в Telegram: 
-    <a href="https://t.me/cityKoToBo" style="text-decoration: none; color: #333;">https://t.me/cityKoToBo</a>
-    <a href="https://t.me/City_KoToBo_PoLKa" style="text-decoration: none; color: #333;">https://t.me/City_KoToBo_PoLKa</a>
-  </p>
-  
-  <p style="color: red; margin: 0; text-align: right; white-space: nowrap;">Telegram заблокирован в РФ</p>
+    <!-- ROW 2: TELEGRAM -->
+    <img class="platform-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/960px-Telegram_2019_Logo.svg.png" style="width: 24px; height: auto;" alt="Telegram">
+    
+    <p style="margin: 0; padding: 0;">
+      Мы в Telegram: 
+      <a href="https://t.me/cityKoToBo" style="text-decoration: none; color: #333;">https://t.me/cityKoToBo</a>
+      <a href="https://t.me/City_KoToBo_PoLKa" style="text-decoration: none; color: #333;">https://t.me/City_KoToBo_PoLKa</a>
+    </p>
+    
+    <p style="color: red; margin: 0; text-align: right; white-space: nowrap;">Telegram заблокирован в РФ</p>
 
-</div>
-        <h1 style="text-align: center; justify-content: flex-end;">Cамая последняя новость</h1>
-        <br>
-        <div class="latest-news" style="display: flex; justify-content: center; flex-wrap: wrap;"></div>
-        <br>
-        <h1 style="text-align: center; justify-content: flex-end;">О стране</h1>
-        <br>
-        <p style="text-align: center; width: 50%; margin: 0 auto;">Котоссия (КФ или Котоссийская Федерация, ранее Кото Край/Кото Страна) - это страна человеко-подобных котов (Почти фурри, но нет). Для приезжих законы оцениваются строже (Особенно не к котам).</p>
-    </main>
-    <footer>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+  </div>
+
+  <!-- Изменено: отступы добавлены через margin, убраны <br> -->
+  <h1 style="text-align: center; margin-top: 40px;">Cамая последняя новость</h1>
+  <div class="latest-news" style="display: flex; justify-content: center; flex-wrap: wrap;"></div>
+  
+  <h1 style="text-align: center; margin-top: 40px;">О стране</h1>
+  <p style="text-align: center; width: 50%; margin: 20px auto 40px auto;">Котоссия (КФ или Котоссийская Федерация, ранее Кото Край/Кото Страна) - это страна человеко-подобных котов (Почти фурри, но нет). Для приезжих законы оцениваются строже (Особенно не к котам).</p>
+</main>
+
+<!-- Изменено: убраны все <br>, добавлен внутренний отступ padding -->
+<footer style="padding-top: 20px; text-align: center;">
         <p>Сайт создал мэр ЮгиГорода в Котоссии</p>
         <br>
         <p>ТГ, где можно написать ему - @Yugi_of_the_world</p>
