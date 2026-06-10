@@ -225,19 +225,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!container || !img) return;
 
-  // Жесткое отключение нативного драга на уровне JS
+  // Жестко блокируем стандартный драг картинок браузером
   img.ondragstart = (e) => { e.preventDefault(); return false; };
   img.onselectstart = (e) => { e.preventDefault(); return false; };
 
   const PC_ZOOM_SCALE = 2.5; 
-  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+  // Проверка на мобильное устройство
+  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 0);
 
   if (!isMobile) {
-    /*** ЛОГИКА ДЛЯ PC (Клик и перемещение) ***/
+    /*** ЛОГИКА ДЛЯ PC (Клик держит зум и двигает) ***/
     let isZoomed = false;
 
     container.addEventListener('mousedown', (e) => {
-      e.preventDefault(); // Блокирует стандартный драг браузера при клике
+      if (e.button !== 0) return; // Реакция только на левую кнопку мыши
+      e.preventDefault();
       isZoomed = true;
       container.style.cursor = 'zoom-out';
       updatePCZoom(e);
@@ -257,9 +259,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updatePCZoom(e) {
       const rect = container.getBoundingClientRect();
+      
+      // Координаты мыши относительно контейнера
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
+      // Вычисляем сдвиг, чтобы точка под курсором была в фокусе
       const moveX = (rect.width / 2 - x) * (PC_ZOOM_SCALE - 1);
       const moveY = (rect.height / 2 - y) * (PC_ZOOM_SCALE - 1);
 
@@ -280,30 +285,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let initialTranslateY = 0;
 
     container.addEventListener('touchstart', (e) => {
-      // e.preventDefault() здесь не пишем, чтобы не заблокировать скролл всей страницы, 
-      // если пользователь просто листает мимо картинки.
-      
       if (e.touches.length === 1) {
-        // Один палец — запоминаем точку касания для перетаскивания
+        // Запоминаем точку для перетаскивания (первый палец)
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         initialTranslateX = translateX;
         initialTranslateY = translateY;
       } else if (e.touches.length === 2) {
-        // Два пальца — запоминаем стартовое расстояние для зума
+        // Запоминаем расстояние для зума (палец [0] и палец)
         distStart = getDistance(e.touches[0], e.touches[1]);
         startScale = scale;
       }
     });
 
     container.addEventListener('touchmove', (e) => {
-      // Блокируем скролл страницы ТОЛЬКО если картинка уже увеличена или юзер зумит ее двумя пальцами
+      // Блокируем системный скролл страницы, если картинка зумится или двигается в зуме
       if (scale > 1 || e.touches.length === 2) {
         e.preventDefault();
       }
 
       if (e.touches.length === 1 && scale > 1) {
-        // Перетаскивание работает, только если картинка уже хоть немного увеличена
+        // Перетаскивание одним пальцем
         const deltaX = e.touches[0].clientX - startX;
         const deltaY = e.touches[0].clientY - startY;
         translateX = initialTranslateX + deltaX;
@@ -313,16 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const distCurrent = getDistance(e.touches[0], e.touches[1]);
         scale = startScale * (distCurrent / distStart);
         
-        // Ограничение: нельзя сделать меньше оригинала, но можно увеличивать
+        // Ограничение: нельзя сделать меньше исходного размера
         if (scale < 1) {
           scale = 1;
-          translateX = 0; // Сбрасываем сдвиг, если вернулись к оригиналу
+          translateX = 0;
           translateY = 0;
         }
       }
       
       img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    }, { passive: false }); // passive: false необходим для работы e.preventDefault() внутри touchmove
+    }, { passive: false });
 
     function getDistance(p1, p2) {
       return Math.hypot(p2.clientX - p1.clientX, p2.clientY - p1.clientY);
