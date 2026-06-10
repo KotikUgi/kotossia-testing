@@ -2,9 +2,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../styles.css">
-    <style><div class="zoom-container" id="zoomContainer">
-  <img src="https://picsum.photos" alt="Zoomable" id="zoomImage">
-</div>
 
 <style>
 .zoom-container {
@@ -218,121 +215,6 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
         <img src="../kotossiaMap.jpg" style="display: block; margin-left: auto; margin-right: auto;">
         </div>
         <p style="text-align: center; justify-content: flex-end; color: gray;">Карта создана 30 ноября 2024 г. в 20:32 по ЕКБ.</h1>
-        <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('zoomContainer');
-  const img = document.getElementById('zoomImage');
-
-  if (!container || !img) return;
-
-  // Жестко блокируем стандартный драг картинок браузером
-  img.ondragstart = (e) => { e.preventDefault(); return false; };
-  img.onselectstart = (e) => { e.preventDefault(); return false; };
-
-  const PC_ZOOM_SCALE = 2.5; 
-  // Проверка на мобильное устройство
-  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 0);
-
-  if (!isMobile) {
-    /*** ЛОГИКА ДЛЯ PC (Клик держит зум и двигает) ***/
-    let isZoomed = false;
-
-    container.addEventListener('mousedown', (e) => {
-      if (e.button !== 0) return; // Реакция только на левую кнопку мыши
-      e.preventDefault();
-      isZoomed = true;
-      container.style.cursor = 'zoom-out';
-      updatePCZoom(e);
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isZoomed) return;
-      updatePCZoom(e);
-    });
-
-    window.addEventListener('mouseup', () => {
-      if (!isZoomed) return;
-      isZoomed = false;
-      container.style.cursor = 'zoom-in';
-      img.style.transform = 'translate(0px, 0px) scale(1)';
-    });
-
-    function updatePCZoom(e) {
-      const rect = container.getBoundingClientRect();
-      
-      // Координаты мыши относительно контейнера
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      // Вычисляем сдвиг, чтобы точка под курсором была в фокусе
-      const moveX = (rect.width / 2 - x) * (PC_ZOOM_SCALE - 1);
-      const moveY = (rect.height / 2 - y) * (PC_ZOOM_SCALE - 1);
-
-      img.style.transform = `translate(${moveX}px, ${moveY}px) scale(${PC_ZOOM_SCALE})`;
-    }
-
-  } else {
-    /*** ЛОГИКА ДЛЯ MOBILE (Pinch-to-zoom и Drag) ***/
-    let scale = 1;
-    let startScale = 1;
-    let distStart = 0;
-    
-    let translateX = 0;
-    let translateY = 0;
-    let startX = 0;
-    let startY = 0;
-    let initialTranslateX = 0;
-    let initialTranslateY = 0;
-
-    container.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        // Запоминаем точку для перетаскивания (первый палец)
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        initialTranslateX = translateX;
-        initialTranslateY = translateY;
-      } else if (e.touches.length === 2) {
-        // Запоминаем расстояние для зума (палец [0] и палец)
-        distStart = getDistance(e.touches[0], e.touches[1]);
-        startScale = scale;
-      }
-    });
-
-    container.addEventListener('touchmove', (e) => {
-      // Блокируем системный скролл страницы, если картинка зумится или двигается в зуме
-      if (scale > 1 || e.touches.length === 2) {
-        e.preventDefault();
-      }
-
-      if (e.touches.length === 1 && scale > 1) {
-        // Перетаскивание одним пальцем
-        const deltaX = e.touches[0].clientX - startX;
-        const deltaY = e.touches[0].clientY - startY;
-        translateX = initialTranslateX + deltaX;
-        translateY = initialTranslateY + deltaY;
-      } else if (e.touches.length === 2) {
-        // Масштабирование двумя пальцами
-        const distCurrent = getDistance(e.touches[0], e.touches[1]);
-        scale = startScale * (distCurrent / distStart);
-        
-        // Ограничение: нельзя сделать меньше исходного размера
-        if (scale < 1) {
-          scale = 1;
-          translateX = 0;
-          translateY = 0;
-        }
-      }
-      
-      img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    }, { passive: false });
-
-    function getDistance(p1, p2) {
-      return Math.hypot(p2.clientX - p1.clientX, p2.clientY - p1.clientY);
-    }
-  }
-});
-
-</script>
     </main>
     <footer style="padding-top: 20px; text-align: center;">
     <br>
