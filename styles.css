@@ -27,7 +27,6 @@ main {
         .img-container {
             width: 396px;
             height: 98px;
-            border-radius: 8px; /* Optional rounded corners */
         }
 
         /* 2. Default state of the image */
@@ -35,6 +34,9 @@ main {
             width: 100%;
             height: 100%;
             transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+
         }
 
         /* 3. The hover effect trigger */
