@@ -6,24 +6,19 @@
         }
 
 main {
-  /* 1. Объединяем свойства */
   width: 100%;
-  min-height: auto;
+  min-height: auto; /* ИЗМЕНЕНО: теперь блок не растягивается насильно на весь экран */
   box-sizing: border-box;
-  
-  /* 2. Исправляем единицы измерения (или ставим 0, если отступ не нужен) */
   margin: 0px; 
-  padding: 0;
-  
-  /* 3. Защита от схлопывания внутренних отступов */
+  padding: 0 0 40px 0; /* ДОБАВЛЕНО: небольшой аккуратный отступ снизу до футера (40px) */
   overflow: hidden; 
 
-  /* 4. Ваши градиенты */
   background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
                     linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-  background-size: 100% 200px;
+  background-size: 100% 100%; /* ИЗМЕНЕНО: градиент теперь подстраивается под размер контента */
   background-repeat: no-repeat;
 }
+
 
 
 footer {
