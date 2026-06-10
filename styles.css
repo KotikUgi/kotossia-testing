@@ -66,8 +66,6 @@
         .img-container {
             width: 396px;
             height: 98px;
-            margin: 0 auto;
-            overflow: hidden; /* Здесь hidden нужен, чтобы картинка не вылезала при ховере */
         }
 
         .img-container img {
