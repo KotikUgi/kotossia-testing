@@ -24,38 +24,23 @@ main {
   background-repeat: no-repeat;
 }
 
-.img-container {
-    width: 396px;
-    height: 98px;
-    border-radius: 8px; 
-    
-    /* Remove overflow: hidden so it doesn't cut off */
-    overflow: visible; 
+        .img-container {
+            width: 396px;
+            height: 98px;
+            border-radius: 8px; /* Optional rounded corners */
+        }
 
-    /* Smooth transition applied to the container instead */
-    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
-    
-    /* Chrome 3D rendering context fix */
-    transform: perspective(1px) translateZ(0);
-}
+        /* 2. Default state of the image */
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
+        }
 
-/* Default state of the image */
-.img-container img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    border-radius: 8px; /* Apply the rounded corners directly to the image */
-
-    /* Force nearest-neighbor pixelated zoom */
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-}
-
-/* Hover effect scales everything outwards without clipping */
-.img-container:hover {
-    transform: perspective(1px) scale(1.2) translateZ(0); 
-}
+        /* 3. The hover effect trigger */
+        .img-container:hover img {
+            transform: scale(1.02); /* Zooms in by 20% */
+        }
 
         header {
             /* Syntax: linear-gradient(direction, color1, color2, color3) */
