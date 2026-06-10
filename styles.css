@@ -34,18 +34,36 @@ footer {
   padding: 0;
   overflow: hidden; 
 
-  /* РЕШЕНИЕ: Разделяем размеры для двух слоев фона */
-  background-image: 
-    /* 1. Белое размытие ровно на 150 пикселей */
-    linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%), 
-    /* 2. Цветные полосы, которые будут идти бесконечно вниз */
-    linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+  /* 1. Основной фон — ТОЛЬКО цветные полосы на всю высоту */
+  background-image: linear-gradient(
+    90deg, 
+    #fff4d1 0%, #fff4d1 32%, 
+    #e1f4ff 34%, #e1f4ff 65%, 
+    #ffd1d1 67%, #ffd1d1 100%
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  /* 2. Важно для позиционирования маски размытия */
+  position: relative; 
+}
+
+/* 3. Создаем независимый слой для плавного проявления */
+footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   
-  /* ВАЖНО: Первый слой делаем высотой 150px, второй слой — на всю высоту (100%) */
-  background-size: 100% 150px, 100% 100%; 
+  /* Высота зоны плавного появления (изменяйте этот параметр под себя) */
+  height: 200px; 
   
-  /* Запрещаем повторяться белому размытию, чтобы оно не появилось снова внизу */
-  background-repeat: no-repeat, no-repeat;
+  /* Плавный переход от чисто белого к абсолютно прозрачному */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  
+  /* Защита, чтобы маска не мешала выделять текст или кликать по ссылкам */
+  pointer-events: none; 
 }
 
 
