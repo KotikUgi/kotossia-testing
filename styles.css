@@ -63,20 +63,25 @@
         /* ==========================================================================
            4. Элементы внутри контента
            ========================================================================== */
-        .img-container {
-            width: 396px;
-            height: 98px;
-        }
+.img-container {
+    display: block;    /* Превращаем в полноценный блок */
+    width: 396px;
+    height: 98px;
+    margin: 0;         /* Сбрасываем любые авто-отступы */
+    text-align: left;  /* Принудительно выравниваем контент внутри влево */
+    overflow: hidden; 
+}
 
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
-            image-rendering: pixelated;   
-            image-rendering: crisp-edges; 
-            transform: translateZ(0); 
-            backface-visibility: hidden;
-        }
+.img-container img {
+    display: block;    /* Убираем у картинки поведение строки */
+    width: 100%;
+    height: 100%;
+    transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); 
+    image-rendering: pixelated;   
+    image-rendering: crisp-edges; 
+    transform: translateZ(0); 
+    backface-visibility: hidden;
+}
 
         .img-container:hover img {
             transform: scale(1.02); 
