@@ -28,7 +28,6 @@ main {
     width: 396px;
     height: 98px;
     border-radius: 8px; 
-    overflow: hidden; /* Clips the scaling image inside the rounded corners */
     
     /* Chrome Fix: Force a hardware-accelerated layer context on the container */
     isolation: isolate; 
