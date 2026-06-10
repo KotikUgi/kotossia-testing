@@ -24,24 +24,24 @@ main {
   background-repeat: no-repeat;
 }
 footer {
-  /* 1. Объединяем свойства */
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  
-  /* 2. Исправляем единицы измерения (или ставим 0, если отступ не нужен) */
   margin: 0px; 
   padding: 0;
-  
-  /* 3. Защита от схлопывания внутренних отступов */
   overflow: hidden; 
 
-  /* 4. Ваши градиенты */
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                    linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-  background-size: 100% 200px;
+  /* ИСПРАВЛЕННЫЙ НАБОР ГРАДИЕНТОВ */
+  background-image: 
+    /* 1. Этот слой создает плавное проявление (fade in) сверху вниз */
+    linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 20%), 
+    /* 2. Основные цветные полосы */
+    linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+  
+  background-size: 100% 100%; /* Растягиваем на всю высоту, чтобы цвета не исчезали */
   background-repeat: no-repeat;
 }
+
 
         .img-container {
             width: 396px;
