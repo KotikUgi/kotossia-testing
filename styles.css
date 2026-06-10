@@ -34,8 +34,12 @@ main {
             width: 100%;
             height: 100%;
             transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); /* Makes the zoom smooth */
-  image-rendering: auto;
-  image-rendering: -webkit-auto;
+  image-rendering: pixelated;   /* Modern Chromium/Blink engines */
+  image-rendering: crisp-edges; /* Safari, Firefox, and legacy engines */
+  
+  /* Prevent blur during hardware-accelerated transitions */
+  transform: translateZ(0); 
+  backface-visibility: hidden;
 
         }
 
