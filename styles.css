@@ -129,6 +129,21 @@ header nav ul li a:hover {
     color: #be1b1b; 
 }
 
+a {
+  /* Crucial: allows transform animations to work on an anchor tag */
+  display: inline-block; 
+  
+  /* Smoothly animates the transform property over 0.3 seconds */
+  transition: transform 0.2s ease-in-out; 
+  
+  /* Decorative styles */
+  text-decoration: none;
+}
+
+a:hover {
+  /* Scales the element to 110% of its original size */
+  transform: scale(1.05); 
+}
 
         /* ==========================================================================
            5. Подвал (Footer)
