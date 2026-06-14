@@ -1,80 +1,38 @@
-        /* ==========================================================================
-           1. Сброс стилей и фиксация высоты
-           ========================================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            height: 100%;
-        }
-
-        body {
-            min-height: 100%; /* Позволяет странице расти бесконечно вниз */
-            
-            /* Сетка: Шапка (auto), Контент (занимает всё остальное 1fr), Футер (auto) */
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            
-            font-family: "Pliant", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 300;
-            font-style: normal;
-            font-variation-settings: "wdth" 100;
-        }
-
-        /* ==========================================================================
-           2. Шапка (Header)
-           ========================================================================== */
-        header {
-            background: linear-gradient(
-                90deg, 
-                #fff4d1 0%, 
-                #fff4d1 32%, 
-                #e1f4ff 34%, 
-                #e1f4ff 65%, 
-                #ffd1d1 67%, 
-                #ffd1d1 100%
-            );
-            padding: 40px 20px;
-            color: white;
-            text-align: center;
-        }
-
-        /* ==========================================================================
-           3. Главный контент (Main) — Скролл теперь разрешен
-           ========================================================================== */
-        main {
-            width: 100%;
-            box-sizing: border-box;
-            margin: 0; 
-            padding: 20px; 
-            
-            /* ОШИБКА ИСПРАВЛЕНА: overflow: hidden УДАЛЕН, чтобы работал скролл */
-
-            background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                              linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-            background-size: 100% 200px;
-            background-repeat: no-repeat;
-        }
-
-        /* ==========================================================================
-           4. Элементы внутри контента
-           ========================================================================== */
 /* ==========================================================================
-   Обновленная шапка (Логотип слева, Меню справа, Градиент работает)
+   1. Сброс стилей и фиксация высоты
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%; 
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    
+    font-family: "Pliant", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+/* ==========================================================================
+   2. Шапка (Header) — Очищена от дубликатов и лишнего white color
    ========================================================================== */
 header {
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
     width: 100%; 
-    box-sizing: border-box; 
-    padding: 10px 20px; /* Аккуратный отступ, чтобы меню и лого не слипались */
+    padding: 10px 20px; 
     
-    /* Ваш трехцветный градиент */
     background: linear-gradient(
         90deg, 
         #fff4d1 0%, 
@@ -86,7 +44,22 @@ header {
     );
 }
 
-/* Контейнер логотипа больше не центрируется */
+/* ==========================================================================
+   3. Главный контент (Main)
+   ========================================================================== */
+main {
+    width: 100%;
+    padding: 20px; 
+
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                      linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+    background-size: 100% 200px;
+    background-repeat: no-repeat;
+}
+
+/* ==========================================================================
+   4. Логотип и Меню навигации
+   ========================================================================== */
 .img-container {
     display: block;
     width: 396px;
@@ -108,7 +81,6 @@ header {
     transform: scale(1.02); 
 }
 
-/* Стили для меню навигации */
 header nav ul {
     display: flex; 
     list-style: none; 
@@ -117,58 +89,38 @@ header nav ul {
     gap: 20px;
 }
 
-/* 1. Глобальные правила для ВСЕХ ссылок на сайте */
+/* ==========================================================================
+   5. ГЛОБАЛЬНЫЕ ССЫЛКИ (Зум теперь работает везде)
+   ========================================================================== */
 a {
-  display: inline-block; 
-  text-decoration: none;
-  color: #333; /* Базовый цвет для всех ссылок */
-  font-weight: 500;
-  
-  /* Анимируем и цвет, и трансформацию одновременно */
-  transition: color 0.2s ease, transform 0.2s ease-in-out; 
+    display: inline-block; 
+    text-decoration: none;
+    color: #333 !important; /* !important гарантирует, что header color не перебьет цвет */
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease-in-out; 
 }
 
 a:hover {
-  transform: scale(1.05); 
-  color: #be1b1b; /* Цвет при наведении для всех ссылок */
+    transform: scale(1.1) !important; /* Увеличил до 1.1, чтобы зум был явно заметен */
+    color: #be1b1b !important; 
 }
 
-/* 2. Стили для меню навигации (только позиционирование) */
-header nav ul {
-    display: flex; 
-    list-style: none; 
-    margin: 0; 
-    padding: 0; 
-    gap: 20px;
+/* ==========================================================================
+   6. Подвал (Footer)
+   ========================================================================== */
+footer {
+    width: 100%;
+    height: 200px; 
+    padding: 10px 0; 
+    
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
+                      linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
-/* Из этих селекторов убраны свойства цвета и трансформации, 
-   чтобы они не мешали глобальному правилу 'a' */
-header nav ul li a {
-    /* Здесь пусто, так как всё нужное уже есть в глобальном 'a' */
+footer p {
+    margin: 0;
+    padding: 2px 0; 
+    text-align: center; 
 }
-
-header nav ul li a:hover {
-    /* Здесь пусто, теперь работает глобальный 'a:hover' */
-}
-
-
-        /* ==========================================================================
-           5. Подвал (Footer)
-           ========================================================================== */
-        footer {
-            width: 100%;
-            height: 200px; 
-            padding: 10px 0; 
-            
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%), 
-                              linear-gradient(90deg, #fff4d1 0%, #fff4d1 32%, #e1f4ff 34%, #e1f4ff 65%, #ffd1d1 67%, #ffd1d1 100%);
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        }
-
-        footer p {
-            margin: 0;
-            padding: 2px 0; 
-            text-align: center; 
-        }
