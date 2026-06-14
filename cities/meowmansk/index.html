@@ -188,15 +188,28 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
     <br>
     <h2 style="margin-bottom: 10px;">Информация</h1>
     <br>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative;">
-    <p style="text-align: center; margin: 0;">Мяуманск - бумажный город, который находится на северо-востоке Котоссии. Он был создан 4 мая 2024 года. Город находится в Республике Бумакусии. В Мяусанске есть своя валюта - Бумажный-котль (сокращенно бк). Также в Мяуманске также есть сеть магазинов - Мяугнит.</p>
-<div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-  <img src="meowmanskPFP.jpg" style="width: 17%; height: auto; display: block;">
-  <p style="margin-top: 10px;">Аватарка Мяуманска в ТГ</p>
+<div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; gap: 40px; padding: 20px; box-sizing: border-box;">
+  
+  <!-- Блок с текстом (занимает основную часть) -->
+  <div style="flex: 1;">
+    <p style="margin: 0; font-size: 16px; line-height: 1.6; text-align: left;">
+      Мяуманск — бумажный город, который находится на северо-востоке Котоссии. 
+      Он был создан 4 мая 2024 года. Город находится в Республике Бумакусии. 
+      В Мяуманске есть своя валюта — Бумажный-котль (сокращенно бк). 
+      Также в Мяуманске есть сеть магазинов — Мяугнит.
+    </p>
+  </div>
+
+  <!-- Блок с аватаркой (фиксированная ширина для предсказуемости) -->
+  <div style="display: flex; flex-direction: column; align-items: center; width: 200px; flex-shrink: 0;">
+    <img src="meowmanskPFP.jpg" alt="Аватарка Мяуманска" style="width: 100%; height: auto; border-radius: 50%; display: block; object-fit: cover;">
+    <p style="margin: 10px 0 0 0; font-size: 14px; color: #555; text-align: center; line-height: 1.2;">
+      Аватарка Мяуманска в ТГ
+    </p>
+  </div>
+
 </div>
 
-
-</div>
 </main>
 
     <footer style="padding-top: 20px; text-align: center;">
