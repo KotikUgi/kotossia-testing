@@ -117,33 +117,41 @@ header nav ul {
     gap: 20px;
 }
 
-header nav ul li a {
-    text-decoration: none; 
-    color: #333;
-    font-weight: 500;
-    transition: color 0.2s ease;
-}
-
-/* Эффект при наведении на ссылки в меню */
-header nav ul li a:hover {
-    color: #be1b1b; 
-}
-
+/* 1. Глобальные правила для ВСЕХ ссылок на сайте */
 a {
-  /* Crucial: allows transform animations to work on an anchor tag */
   display: inline-block; 
-  
-  /* Smoothly animates the transform property over 0.3 seconds */
-  transition: transform 0.2s ease-in-out; 
-  
-  /* Decorative styles */
   text-decoration: none;
+  color: #333; /* Базовый цвет для всех ссылок */
+  font-weight: 500;
+  
+  /* Анимируем и цвет, и трансформацию одновременно */
+  transition: color 0.2s ease, transform 0.2s ease-in-out; 
 }
 
 a:hover {
-  /* Scales the element to 110% of its original size */
   transform: scale(1.05); 
+  color: #be1b1b; /* Цвет при наведении для всех ссылок */
 }
+
+/* 2. Стили для меню навигации (только позиционирование) */
+header nav ul {
+    display: flex; 
+    list-style: none; 
+    margin: 0; 
+    padding: 0; 
+    gap: 20px;
+}
+
+/* Из этих селекторов убраны свойства цвета и трансформации, 
+   чтобы они не мешали глобальному правилу 'a' */
+header nav ul li a {
+    /* Здесь пусто, так как всё нужное уже есть в глобальном 'a' */
+}
+
+header nav ul li a:hover {
+    /* Здесь пусто, теперь работает глобальный 'a:hover' */
+}
+
 
         /* ==========================================================================
            5. Подвал (Footer)
