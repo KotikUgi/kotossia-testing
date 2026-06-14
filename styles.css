@@ -97,11 +97,11 @@ a {
     text-decoration: none;
     color: #333 !important; /* !important гарантирует, что header color не перебьет цвет */
     font-weight: 500;
-    transition: color 0.2s ease, transform 0.2s ease-in-out; 
+    transition: color 0.1s ease, transform 0.1s ease-in-out; 
 }
 
 a:hover {
-    transform: scale(1.1) !important; /* Увеличил до 1.1, чтобы зум был явно заметен */
+    transform: scale(1.064) !important; /* Увеличил до 1.1, чтобы зум был явно заметен */
     color: #be1b1b !important; 
 }
 
