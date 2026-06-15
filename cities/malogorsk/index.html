@@ -188,10 +188,14 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
     <br>
     <h2 style="margin-bottom: 10px;">Информация</h1>
     <br>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative; flex: 1;">
-    <p style="margin: 0; font-size: 16px; line-height: 1.6; text-align: center;">Малогорск - город, который находится на северо-востоке Котоссии.</p>
-    <img src="../noflag.png" style="position: absolute; right: 0;">
-</div>
+  <div style="flex: 1;">
+<p style="margin: 0; font-size: 16px; line-height: 1.6; text-align: center;">Малогорск - город, который находится на северо-востоке Котоссии.</p>
+  </div>
+
+  <!-- Блок с аватаркой (фиксированная ширина для предсказуемости) -->
+  <div style="display: flex; flex-direction: column; align-items: center; width: 200px; flex-shrink: 0;">
+    <img src="../noflag.png" style="width: 100%; height: auto; display: block; object-fit: cover;">
+  </div>
 </main>
 
     <footer style="padding-top: 20px; text-align: center;">
