@@ -1,12 +1,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Manrope:wght@200..800&family=Pliant:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
 <title>Котоссия - Карта</title>
 </head>
 <body>
@@ -14,7 +14,6 @@
         <div class="img-container">
             <img src="https://raw.githubusercontent.com/KotikUgi/kotossia/main/kotossia logo.png" alt="В Главную страницу">
         </div>
-        <nav>
 <nav>
     <ul>
         <li><a href="https://kotikugi.github.io/kotossia-testing/main">Главная</a></li>
@@ -24,7 +23,6 @@
         <li><a href="https://kotikugi.github.io/kotossia-testing/cities">Города Котоссии</a></li>
     </ul>
 </nav>
-    </nav>
         <script>
             // 1. Get the "Raw" URL from your GitHub repository
             const url = 'https://raw.githubusercontent.com/KotikUgi/kotossia/main/test file';
@@ -178,28 +176,41 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
     </header>
 <main style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
     <!-- Wrapper container to align columns consistently -->
-    <h1 style="margin-bottom: 10px;">Города Котоссии</h1>
-    
-<a href="meowkeansk">Мяукеанск</a>
-<a href="malogorsk">Малогорск</a>
-<a href="lapkograd">Лапкоград</a>
-<a href="meowmansk">Мяуманск</a>
-<a href="ryzhikus">Рыжикус</a>
-<a href="tupikov">Тупиков</a>
-<a href="kotovo">Котово</a>
-<a href="yugi-gorod">Юги Город</a>
-<a href="kotozavodsk">Котозаводск</a>
-<a href="murland">Мурлэнд</a>
-<!-- арсений сказал убрать ломитко -->
-<a href="alyaysk">Аляйск</a>
-<a href="kotolayf">Котолайф</a>
-<a href="pelmenevo">Пельменево</a>
-<a href="kotogorodsk">Котогородск</a>
-<!-- новолиптоновск это прошлый аляйск так что убрано -->
-<a href="merm">Мермь</a>
-<a href="masyonovsk">Масёновск</a>
-<a href="kotokoshye">Котокошье</a>
+    <h1 style="margin-bottom: 10px;">Тупиков</h1>
+    <div>
+    <h2 style="margin-bottom: 10px; color: red;">[X] - Город возможно заброшен.</h1>
+      <p style="color: red;">Причина: Город не публиковал никакого поста с 20 января 2024 года.</p>
+    </div>
+    <div>
+    <h2 style="margin-bottom: 10px; color: red;">[!] - В городе ничего важного не происходило</h1>
+      <p style="color: red;">Причина: В этом городе происходили только обновления карты.</p>
+    </div>
+    <br>
+    <h2 style="margin-bottom: 10px;">Информация</h2>
+    <br>
+<div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; gap: 40px; padding: 20px; box-sizing: border-box;">
+  
+  <!-- Блок с текстом (занимает основную часть) -->
+  <div style="flex: 1;">
+    <p style="margin: 0; font-size: 16px; line-height: 1.6; text-align: left;">
+      Тупиков - это город, который расположен рядом с центром Котоссии, точнее рядом с Рыжикусом. Он был создан 6 января 2024 года.
+    </p>
+  </div>
 
+  <!-- Блок с аватаркой (фиксированная ширина для предсказуемости) -->
+  <div style="display: flex; flex-direction: column; align-items: center; width: 200px; flex-shrink: 0;">
+    <img src="tupikovPFP .jpg" alt="Аватарка Тупикова" style="width: 100%; height: auto; border-radius: 50%; display: block; object-fit: cover;">
+    <p style="margin: 10px 0 0 0; font-size: 14px; color: #555; text-align: center; line-height: 1.2;">
+      Аватарка Тупикова в ТГ
+    </p>
+  </div>
+
+</div>
+    <h2 style="margin-bottom: 10px;">Мэр</h2>
+    <br>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative;">
+    <p style="text-align: center; margin: 0; font-size: 16px; line-height: 1.6;">Мэр города - Тупик.</p>
+     </div>
 </main>
 
     <footer style="padding-top: 20px; text-align: center;">
