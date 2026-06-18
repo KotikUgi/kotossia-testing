@@ -24,21 +24,19 @@
     </ul>
 </nav>
         <script>
-            // 1. Get the "Raw" URL from your GitHub repository
-            const url = 'https://raw.githubusercontent.com/KotikUgi/kotossia/main/test file';
+// 1. Get the current page URL's query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const container = document.querySelector('.back');
+// 2. Fetch the value of 'variable'
+const myValue = urlParams.get('from'); 
+container.innerHTML = '';
+// 3. Use it on your site
+console.log(myValue); // Outputs: "test"
 
-            // 2. Fetch the data and display it
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('file-content').textContent = data;
-                })
-                .catch(error => {
-                    document.getElementById('file-content').textContent = 'Error loading file: ' + error.message;
-                });
+if (myValue === "kotovo") {
+    container.innerHTML = '<a style="margin: 10px; padding: 10px;" href="https://kotikugi.github.io/kotossia-testing/cities/kotovo">< Обратно в Санкт-Котово</p>';
+}
+
         </script>
     <script>
 async function loadLatestNews() {
@@ -176,6 +174,7 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
     </header>
     <main>
 <!-- Wrapper container to align columns consistently -->
+ <div class="from"></div>
         <h1 style="text-align: center; justify-content: flex-end;">История президентов в Котоссии</h1>
         <h3 style="text-align: center; justify-content: flex-end;">В.В.Котин</h3>
         <img src="../kotin.jpg" style="display: block; margin-left: auto; margin-right: auto;">
