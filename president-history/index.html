@@ -200,21 +200,15 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
         <p>ТГ президента Котоссии - @Arsenii_ 2023</p>
     </footer>
     <script>
-// 1. Получаем параметры строки запроса текущего URL
-const urlParams = new URLSearchParams(window.location.search);
-const container = document.querySelector('.back');
+document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const container = document.querySelector('.back');
+    const myValue = urlParams.get('from'); 
 
-// 2. Извлекаем значение параметра 'from'
-const myValue = urlParams.get('from'); 
-
-// 3. Очищаем контейнер и проверяем условие
-if (container) {
-    container.innerHTML = ''; // Очистка перед вставкой
-
-    if (myValue === "kotovo") {
-        // ИСПРАВЛЕНО: закрывающий тег изменен на </a>
-        container.innerHTML = '<a style="margin: 10px; padding: 10px;" href="https://kotikugi.github.io/kotossia-testing/cities/kotovo">&lt; Обратно в Санкт-Котово</a>';
+    if (container && myValue === "kotovo") {
+        container.innerHTML = '<a style="margin: 10px; padding: 10px; display: inline-block;" href="https://github.io">&lt; Обратно в Санкт-Котово</a>';
     }
-}
+});
+
 </script>
 </body>
