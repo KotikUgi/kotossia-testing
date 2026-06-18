@@ -23,21 +23,7 @@
         <li><a href="https://kotikugi.github.io/kotossia-testing/cities">Города Котоссии</a></li>
     </ul>
 </nav>
-        <script>
-// 1. Get the current page URL's query parameters
-const urlParams = new URLSearchParams(window.location.search);
-const container = document.querySelector('.back');
-// 2. Fetch the value of 'variable'
-const myValue = urlParams.get('from'); 
-container.innerHTML = '';
-// 3. Use it on your site
-console.log(myValue); // Outputs: "test"
 
-if (myValue === "kotovo") {
-    container.innerHTML = '<a style="margin: 10px; padding: 10px;" href="https://kotikugi.github.io/kotossia-testing/cities/kotovo">< Обратно в Санкт-Котово</p>';
-}
-
-        </script>
     <script>
 async function loadLatestNews() {
   const container = document.querySelector('.latest-news');
@@ -213,4 +199,22 @@ document.addEventListener('DOMContentLoaded', loadLatestNews);
         <br>
         <p>ТГ президента Котоссии - @Arsenii_ 2023</p>
     </footer>
+    <script>
+// 1. Получаем параметры строки запроса текущего URL
+const urlParams = new URLSearchParams(window.location.search);
+const container = document.querySelector('.back');
+
+// 2. Извлекаем значение параметра 'from'
+const myValue = urlParams.get('from'); 
+
+// 3. Очищаем контейнер и проверяем условие
+if (container) {
+    container.innerHTML = ''; // Очистка перед вставкой
+
+    if (myValue === "kotovo") {
+        // ИСПРАВЛЕНО: закрывающий тег изменен на </a>
+        container.innerHTML = '<a style="margin: 10px; padding: 10px;" href="https://kotikugi.github.io/kotossia-testing/cities/kotovo">< Обратно в Санкт-Котово</a>';
+    }
+}
+</script>
 </body>
