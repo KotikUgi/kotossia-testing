@@ -1,0 +1,224 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Manrope:wght@200..800&family=Pliant:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
+<title>Котоссия - Карта</title>
+</head>
+<body>
+    <header style="display: flex; justify-content: space-between; align-items: center; width: 100%; box-sizing: border-box; padding: 10px 20px; background-color: #ffffff;">
+        <div class="img-container">
+            <img src="/kotossia-testing/kotossia logo.png" alt="В Главную страницу">
+        </div>
+<nav>
+    <ul>
+        <li><a href="https://kotikugi.github.io/kotossia-testing/main">Главная</a></li>
+        <li><a href="https://kotikugi.github.io/kotossia-testing/news">Новости</a></li>
+        <li><a href="https://kotikugi.github.io/kotossia-testing/president-history">История президентов</a></li>
+        <li><a href="https://kotikugi.github.io/kotossia-testing/map">Карта Котоссии</a></li>
+        <li><a href="https://kotikugi.github.io/kotossia-testing/cities">Города Котоссии</a></li>
+    </ul>
+</nav>
+        <script>
+            // 1. Get the "Raw" URL from your GitHub repository
+            const url = 'https://raw.githubusercontent.com/KotikUgi/kotossia/main/test file';
+
+            // 2. Fetch the data and display it
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('file-content').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('file-content').textContent = 'Error loading file: ' + error.message;
+                });
+        </script>
+    <script>
+async function loadLatestNews() {
+  const container = document.querySelector('.latest-news');
+  if (!container) return;
+  container.innerHTML = '<p>грузим :33</p>';
+  let highestNumber = 0;
+  let checkedNumber = 1;
+  const maxCheck = 50; 
+
+  // 1. Ищем самый большой существующий номер по наличию .txt файла
+  while (checkedNumber <= maxCheck) {
+    try {
+      const response = await fetch(`../${checkedNumber}.txt`, { method: 'HEAD' });
+      if (response.ok) {
+        highestNumber = checkedNumber;
+        checkedNumber++;
+      } else {
+        break; 
+      }
+    } catch (error) {
+      break;
+    }
+  }
+
+  if (highestNumber === 0) {
+    container.innerHTML = '<p>Новости не найдены.</p>';
+    return;
+  }
+
+  // 2. Загружаем текст для найденного номера
+  let textContent = '';
+  try {
+    const textResponse = await fetch(`../${highestNumber}.txt`);
+    if (textResponse.ok) {
+      textContent = await textResponse.text();
+    }
+  } catch (e) {
+    container.innerHTML = '<p>ошибка загрузки текста. посмотрите в консоль</p>';
+    console.error("Ошибка загрузки текста:", e);
+  }
+
+  // 3. Ищем все связанные изображения (.png или .jpg)
+  const images = [];
+  let imageIndex = 1;
+
+  while (true) {
+    const pngPath = `../${highestNumber}_${imageIndex}.png`;
+    const jpgPath = `../${highestNumber}_${imageIndex}.jpg`;
+    let foundPath = null;
+
+    try {
+      // Сначала проверяем PNG
+      let imgResponse = await fetch(pngPath, { method: 'HEAD' });
+      if (imgResponse.ok) {
+        foundPath = pngPath;
+      } else {
+        // Если PNG нет, проверяем JPG
+        imgResponse = await fetch(jpgPath, { method: 'HEAD' });
+        if (imgResponse.ok) {
+          foundPath = jpgPath;
+        }
+      }
+
+      // Если нашли картинку любого формата — добавляем и идем дальше
+      if (foundPath) {
+        images.push(foundPath);
+        imageIndex++;
+      } else {
+        break; // Прерываем цикл, если под этим индексом нет ни png, ни jpg
+      }
+    } catch (e) {
+      container.innerHTML = '<p>ошибка загрузки картинок. посмотрите в консоль</p>';
+      console.error("Ошибка загрузки картинок:", e);
+      break;
+    }
+  }
+  container.innerHTML = '';
+  // 4. Создаем HTML-структуру и добавляем в контейнер
+  const newsItem = document.createElement('div');
+  newsItem.className = 'news-item';
+  newsItem.style.display = 'flex';
+  newsItem.style.flexDirection = 'column';
+  newsItem.style.alignItems = 'center'; // Центрирует строку с картинками и текст по горизонтали
+  newsItem.style.width = '100%';
+
+  if (images.length > 0) {
+    const row = document.createElement('div');
+    row.className = 'news-images-row';
+    row.style.display = 'flex';
+    row.style.gap = '10px';
+    row.style.flexWrap = 'nowrap'; 
+    row.style.alignItems = 'stretch';
+    row.style.justifyContent = 'center'; // Центрирует картинки внутри самой строки, если их меньше 4
+    row.style.width = '100%';
+
+    images.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      
+      img.style.width = 'calc(25% - 7.5px)'; 
+      img.style.objectFit = 'cover';
+      img.style.objectPosition = 'center'; // Центрирует содержимое внутри каждой картинки
+
+      if (index === 0) {
+        img.style.height = 'auto'; 
+      } else {
+        img.style.height = '100%'; 
+      }
+      
+      row.appendChild(img);
+    });
+    newsItem.appendChild(row);
+  }
+
+  // Блок для текста
+  if (textContent) {
+    const textElement = document.createElement('p');
+    textElement.className = 'news-text';
+    textElement.innerText = textContent;
+    textElement.style.textAlign = 'center'; // Центрирует текст внутри параграфа
+    textElement.style.width = '100%';
+    newsItem.appendChild(textElement);
+  }
+
+  container.appendChild(newsItem);
+
+}
+
+// Запуск при загрузке страницы
+document.addEventListener('DOMContentLoaded', loadLatestNews);
+
+
+    </script>
+    </header>
+<main style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
+    <!-- Wrapper container to align columns consistently -->
+    <h1 style="margin-bottom: 10px;">Пельменьево</h1>
+    <div>
+    <h2 style="margin-bottom: 10px; color: indigo;">[?] - Об этом городе почти ничего не известно.</h1>
+      <p style="color: indigo;">Причина: Канала города нет.</p>
+    </div>
+    <div>
+    <h2 style="margin-bottom: 10px; color: red;">[!] - Нужно больше информации</h1>
+      <p style="color: red;">Причина: В информации о городе мало написано, флага нет.</p>
+    </div>
+    <br>
+    <h2 style="margin-bottom: 10px;">Информация</h2>
+    <br>
+<div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; gap: 40px; padding: 20px; box-sizing: border-box;">
+  
+  <div style="flex: 1;">
+    <p style="margin: 0; font-size: 16px; line-height: 1.6; text-align: center;">Пельменьево - город, который находится на юге Котоссии. Он был создан 29 января 2024 года.</p>
+  </div>
+
+  <!-- Блок с аватаркой (фиксированная ширина для предсказуемости) -->
+  <div style="display: flex; flex-direction: column; align-items: center; width: 200px; flex-shrink: 0;">
+    <img src="../noflag.png" style="width: 100%; height: auto; display: block; object-fit: cover;">
+  </div>
+
+</div> <!-- <-- ЭТОТ ТЕГ БЫЛ ПРОПУЩЕН (закрывает главный флекс-контейнер) -->
+
+<br>
+<h2 style="margin-bottom: 10px;">Мэр</h2>
+<br>
+
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative;">
+  <p style="margin: 0; font-size: 16px; line-height: 1.6; text-align: center;">Возможно, это неверно, но мы думаем что сейчас мэр этого города В.В.Котин (также мэр Санкт-Котово и президент Котоссии)</p>
+</div>
+
+</main>
+
+    <footer style="padding-top: 20px; text-align: center;">
+    <br>
+    <br>
+    <br>
+        <p>Сайт создал мэр ЮгиГорода в Котоссии</p>
+        <br>
+        <p>ТГ, где можно написать ему - @Yugi_of_the_world</p>
+        <br>
+        <p>ТГ президента Котоссии - @Arsenii_ 2023</p>
+    </footer>
+</body>
